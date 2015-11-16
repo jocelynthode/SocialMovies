@@ -3,9 +3,9 @@ class SearchController < ApplicationController
     graph = RDF::Graph.load("http://ruby-rdf.github.com/rdf/etc/doap.nt")
     query = RDF::Query.new({
       person: {
-        RDF.type  => FOAF.Person,
-        FOAF.name => :name,
-        FOAF.mbox => :email,
+        RDF.type  => RDF::Vocab::FOAF.Person,
+        RDF::Vocab::FOAF.name => :name,
+        RDF::Vocab::FOAF.mbox => :email,
       }
     })
 
