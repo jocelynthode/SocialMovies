@@ -1,11 +1,20 @@
 Rails.application.routes.draw do
+  devise_for :users
+
+  devise_scope :user do
+    get "sign_in", to: "devise/sessions#new"
+    get "sign_up", to: "devise/registrations#new"
+    delete "sign_out", to: "devise/sessions#destroy"
+  end
+
+  get 'welcome/index'
   get 'search/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -15,6 +24,7 @@ Rails.application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  resources :movies
 
   # Example resource route with options:
   #   resources :products do
