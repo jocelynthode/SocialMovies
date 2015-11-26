@@ -83,10 +83,15 @@ class SearchController < ApplicationController
         FILTER regex(?mname, \'^.*' +movie_name+ '\', \'i\') .}
         ORDER BY ?mname'
     res = sparql.query(q)
+    hash_res = JSON.parse(res.to_json)
+    @movies = hash_res['results']['bindings']
+    puts '#### =========== ####'
+    puts @movies
+    puts '#### =========== ####'
 
-    res.each_solution do |solution|
-      puts solution.inspect
-    end
+    # res.each_solution do |solution|
+    #   puts solution.inspect
+    # end
   end
 
   # Search by year
@@ -105,10 +110,15 @@ class SearchController < ApplicationController
         FILTER regex(?d, \'^' +movie_year+ '\') .}
         ORDER BY ?mname'
     res = sparql.query(q)
+    hash_res = JSON.parse(res.to_json)
+    @movies = hash_res['results']['bindings']
+    puts '#### =========== ####'
+    puts @movies
+    puts '#### =========== ####'
 
-    res.each_solution do |solution|
-      puts solution.inspect
-    end
+    # res.each_solution do |solution|
+    #   puts solution.inspect
+    # end
   end
 
   # Search by director
@@ -129,10 +139,15 @@ class SearchController < ApplicationController
         FILTER regex(?dname, \'^.*' +movie_dir+ '\', \'i\') .}
         ORDER BY ?mname'
     res = sparql.query(q)
+    hash_res = JSON.parse(res.to_json)
+    @movies = hash_res['results']['bindings']
+    puts '#### =========== ####'
+    puts @movies
+    puts '#### =========== ####'
 
-    res.each_solution do |solution|
-      puts solution.inspect
-    end
+    # res.each_solution do |solution|
+    #   puts solution.inspect
+    # end
   end
 
 end

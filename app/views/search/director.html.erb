@@ -1,0 +1,18 @@
+<h1>Search#director</h1>
+<p>Find me in app/views/search/director.html.erb</p>
+
+<h2>Search results</h2>
+
+
+<% if !@movies.nil? %>
+  <table>
+  <% @movies.each do |movie| %>
+    <tr>
+      <td><%= movie['mname']['value'] %></td>
+      <td><%= link_to 'Show', movie %></td> <!-- TODO: send to the show view of movie controller and there retrieve information of this specifict movie and display it nicely -->
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <p>No results</p>
+<% end %>
