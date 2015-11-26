@@ -62,10 +62,15 @@ class SearchController < ApplicationController
         ?a movie:actor_name \'' +actor_name+ '\' .}
         ORDER BY ?mname'
     res = sparql.query(q)
+    hash_res = JSON.parse(res.to_json)
+    @movies = hash_res['results']['bindings']
+    puts '#### =========== ####'
+    puts @movies
+    puts '#### =========== ####'
 
-    res.each_solution do |solution|
-      puts solution.inspect
-    end
+    # res.each_solution do |solution|
+    #   puts solution.inspect
+    # end
   end
 
   # Search by movie name
