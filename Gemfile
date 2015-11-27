@@ -43,9 +43,9 @@ gem 'sparql-client', '~> 1.99'
 # gem 'unicorn'
 
 # Use recommendable for like/dislike
-gem 'recommendable'
 gem 'sidekiq'
 gem 'sidekiq-middleware'
+gem 'recommendable'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
