@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_action :set_movie, only: [:show, :edit, :update, :destroy]
+  before_action :set_movie, only: [:show, :edit, :update, :destroy, :toggle_bookmark, :toggle_recommendation]
 
   # GET /movies
   # GET /movies.json
@@ -59,6 +59,29 @@ class MoviesController < ApplicationController
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def toggle_recommendation
+    if current_user.likes?(@movie)
+      current_user.dislike(@movie)
+    else
+      current_user.like(@movie)
+    end
+    redirect_to @movie
+  end
+
+  def toggle_bookmark
+    if current_user.bookmarks?(@movie)
+      current_user.bookmark(@movie)
+    else
+      current_user.unbookmark(@movie)
+    end
+    redirect_to @movie
+  end
+
+  def hide
+    current_user.hide(@movie)
+    redirect_to @movie
   end
 
   private
