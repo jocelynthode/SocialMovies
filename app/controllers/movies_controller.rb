@@ -24,7 +24,8 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.json
   def create
-    @movie = Movie.new(movie_params)
+    # @movie = Movie.new(movie_params)
+    @movie = Movie.find_or_create_by(:mid => movie_params_mid[:mid])
 
     respond_to do |format|
       if @movie.save
@@ -68,6 +69,10 @@ class MoviesController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    def movie_params_mid
+      params.permit(:mid)
+    end
+
     def movie_params
       params.require(:movie).permit(:mid)
     end

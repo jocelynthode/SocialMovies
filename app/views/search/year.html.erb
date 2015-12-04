@@ -9,8 +9,11 @@
   <% @movies.each do |movie| %>
     <tr>
       <td><%= movie['title']['value'] %></td>
-      <td><%= movie['releaseDate']['value'] %></td>
-      <td><%= link_to 'Show', movie %></td> <!-- TODO: send to the show view of movie controller and there retrieve information of this specifict movie and display it nicely -->
+      <td><%=
+      if movie.has_key? 'releaseDate'
+        movie['releaseDate']['value']
+      end %></td>
+      <td><%= link_to 'Show', movies_path(:mid => movie['id']['value']), method: :post %></td>
     </tr>
   <% end %>
   </table>

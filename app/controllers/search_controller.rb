@@ -4,7 +4,13 @@ class SearchController < ApplicationController
   $p_rdfs = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
   $p_rdf = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
   $p_movie = "PREFIX movie: <http://data.linkedmdb.org/resource/movie/>"
+  $prefixes = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX dbo: <http://dbpedia.org/ontology/>
+    PREFIX dbp: <http://dbpedia.org/property/>
+    PREFIX dcterms: <http://purl.org/dc/terms/>"
   $endpoint = "http://data.linkedmdb.org/sparql"
+  # $endpoint = "http://dbpedia.org/sparql"
 
   def index
     # graph = RDF::Graph.load("http://ruby-rdf.github.com/rdf/etc/doap.nt")
@@ -72,6 +78,28 @@ class SearchController < ApplicationController
         ?movies movie:initial_release_date ?releaseDate .
       }
       ORDER BY ?title'
+    # q = $prefixes + '
+    # SELECT DISTINCT ?title ?abstract (str(sample(?movie_year)) as ?releaseDate)
+    # WHERE {
+    #   ?mres rdf:type dbo:Film .
+    #   ?mres rdfs:label ?title .
+    #   FILTER langMatches(lang(?abstract),"en")
+    #   FILTER langMatches(lang(?title),"en")
+    #   FILTER regex(?title, "^.*' +movie_name+ '", "i")
+    #   OPTIONAL { ?mres rdfs:comment ?abstract . }
+    #   OPTIONAL { ?mres dbp:released ?rel_year . }
+    #   OPTIONAL { ?mres dbo:releaseDate ?owl_year .}
+    #   OPTIONAL { ?mres dcterms:subject ?sub .
+    #              ?sub rdfs:label ?movie_year_sub .
+    #              filter regex(?movie_year_sub, ".*[0-9]{4}.*", "i")
+    #            }
+    #   BIND(COALESCE(?owl_year, ?rel_year, ?movie_year_sub) AS ?movie_year)
+    # }
+    # GROUP BY ?title ?abstract
+    # ORDER BY ?title'
+    # puts '#### ----------------'
+    # puts q
+    # puts '#### ----------------'
     res = sparql.query(q)
     hash_res = JSON.parse(res.to_json)
     @movies = hash_res['results']['bindings']
