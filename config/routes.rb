@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :lists
+  resources :movies
   devise_for :users
 
   devise_scope :user do
@@ -8,6 +10,11 @@ Rails.application.routes.draw do
   end
 
   get 'welcome/index'
+  get 'search/index'
+  post 'search/movie'
+  post 'search/year'
+  post 'search/director'
+  post 'search/actor'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

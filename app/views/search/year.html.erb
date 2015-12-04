@@ -1,0 +1,22 @@
+<h1>Search#year</h1>
+<p>Find me in app/views/search/year.html.erb</p>
+
+<h2>Search results</h2>
+
+
+<% if !@movies.nil? %>
+  <table>
+  <% @movies.each do |movie| %>
+    <tr>
+      <td><%= movie['title']['value'] %></td>
+      <td><%=
+      if movie.has_key? 'releaseDate'
+        movie['releaseDate']['value']
+      end %></td>
+      <td><%= link_to 'Show', movies_path(:mid => movie['id']['value']), method: :post %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <p>No results</p>
+<% end %>

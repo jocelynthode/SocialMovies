@@ -1,0 +1,31 @@
+<h1>Search#index</h1>
+<p>Find me in app/views/search/index.html.erb</p>
+
+<h2>Search movies by</h2>
+
+<%= form_tag("/search/movie", method: "post") do %>
+  <%= label_tag(:movie_name, "Title :") %>
+  <%= text_field_tag(:movie_name) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+
+<%= form_tag("/search/year", method: "post") do %>
+  <%= label_tag(:movie_year, "Year :") %>
+  <%= text_field_tag(:movie_year) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+
+<%= form_tag("/search/director", method: "post") do %>
+  <%= label_tag(:movie_dir, "Director name :") %>
+  <%= text_field_tag(:movie_dir) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+
+<%= form_tag("/search/actor", method: "post") do %>
+  <%= label_tag(:actor_name, "Actor name :") %>
+  <%= text_field_tag(:actor_name) %>
+  <%= submit_tag("Search") %>
+<% end %>

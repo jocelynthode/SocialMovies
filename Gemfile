@@ -27,8 +27,13 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 # RDF related gems
-gem 'activerdf', '~> 1.6'
-gem 'activerdf_rdflite', '~> 1.4'
+# gem 'activerdf', '~> 1.6'
+# gem 'activerdf_rdflite', '~> 1.4'
+# gem 'activerdf_sparql', '~> 1.3'
+gem 'rdf', '~> 1.99'
+gem 'linkeddata', '~> 1.99'
+gem 'sparql', '~> 1.99'
+gem 'sparql-client', '~> 1.99'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
