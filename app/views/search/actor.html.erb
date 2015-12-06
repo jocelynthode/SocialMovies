@@ -14,7 +14,7 @@
         movie['releaseDate']['value']
       end %></td>
       <td><%= movie['actorName']['value'] %></td>
-      <td><%= link_to 'Show', movies_path(:mid => movie['id']['value']), method: :post %></td>
+      <td><%= link_to 'Show', movie_path(movie['id']['value']) %></td>
     </tr>
   <% end %>
   </table>

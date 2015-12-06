@@ -1,8 +1,14 @@
-<p id="notice"><%= notice %></p>
-
 <p>
-  <strong>Mid:</strong>
-  <%= @movie.mid %>
+  <strong>Title: </strong>
+  <%= @movie.title %><br>
+  <strong>Released in: </strong>
+  <%= @movie.releaseDate %><br>
+  <strong>Actors:</strong>
+  <ul>
+    <% @movie.actors.each do |actor| %>
+      <li><%= actor %></li>
+    <% end %>
+  </ul>
 </p>
 
 <%= link_to 'Add to playlist', lists_path(@movie) %> |

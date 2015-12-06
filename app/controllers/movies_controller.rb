@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show, :create]
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
 
   # GET /movies
@@ -65,8 +65,13 @@ class MoviesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
     def set_movie
-      @movie = Movie.find(params[:id])
+      @movie = Movie.retrieve params[:id]
+      if not @movie
+        flash[:alert] = "Movie not found"
+        index and render 'index', status: 404
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
