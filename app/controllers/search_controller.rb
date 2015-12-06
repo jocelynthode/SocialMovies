@@ -1,4 +1,5 @@
 class SearchController < ApplicationController
+  skip_before_action :authenticate_user!
 
   # SPARQL Prefixes
   $p_rdfs = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
