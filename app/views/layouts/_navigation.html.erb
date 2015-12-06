@@ -15,6 +15,7 @@
     <%= drop_down fa_icon('user lg') do %>
       <% if user_signed_in? %>
         <%= menu_item fa_icon('user fw', text: 'Profile'), '#' %>
+        <%= menu_item fa_icon('cog fw', text: 'Settings'), edit_user_registration_path %>
         <%= drop_down_divider %>
         <%= menu_item fa_icon('sign-out fw', text: 'Log out'), destroy_user_session_path, method: :delete %>
       <% else %>
