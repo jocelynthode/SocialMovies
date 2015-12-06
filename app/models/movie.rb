@@ -38,4 +38,14 @@ class Movie < ActiveRecord::Base
     movie.actors = res.map{|x| x[:actorName]}.compact.map(&:value)
     movie
   end
+
+  # Populate current instance with info from datastore
+  def retrieve!
+    raise %q('id' cannot be null) if not self.id
+    res = self.class.retrieve(self.id)
+    self.title = res.title
+    self.releaseDate = res.releaseDate
+    self.actors = res.actors
+    self
+  end
 end
