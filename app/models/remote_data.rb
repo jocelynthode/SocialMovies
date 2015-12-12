@@ -15,6 +15,7 @@ class RemoteData
     unless response
       sparql = SPARQL::Client.new(endpoint)
       response = sparql.query(prefixes + query).to_json
+      redis.set(redis_key, response)
     end
     JSON.parse(response, symbolize_names: true)
   end
