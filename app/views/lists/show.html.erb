@@ -6,13 +6,8 @@
 </p>
 
 <p>
-  <strong>Movie:</strong>
-  <%= @list.movie %>
-</p>
-
-<p>
   <strong>User:</strong>
-  <%= @list.user %>
+  <%= @list.user.email %>
 </p>
 
 <%= link_to 'Edit', edit_list_path(@list) %> |
