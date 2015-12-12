@@ -14,7 +14,7 @@
     <% @movies.each do |movie| %>
       <tr>
         <td><%= movie.id %></td>
-        <td><%= image_tag poster_movie_path(movie), style: 'max-height: 50px'%></td>
+        <td><%= image_tag poster_movie_path(movie), style: 'max-height: 100px'%></td>
         <td><%= link_to 'Show', movie %></td>
       </tr>
     <% end %>

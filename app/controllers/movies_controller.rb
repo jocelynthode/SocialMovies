@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-    ok, data = omdb_query(@movie.imdb)
+    ok, data = RemoteData.omdb_query(@movie.imdb)
     if ok
       @plot = data[:Plot]
       @poster_url = data[:Poster]
@@ -72,7 +72,7 @@ class MoviesController < ApplicationController
 
   # Redirect to actual imdb URL
   def poster_img
-    ok, data = omdb_query(@movie.imdb)
+    ok, data = RemoteData.omdb_query(@movie.imdb)
     if ok
       redirect_to data[:Poster], status: :moved_permanently
     else
