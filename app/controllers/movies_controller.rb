@@ -1,6 +1,6 @@
 class MoviesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_movie, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_user!, only: [:index, :show, :poster_img]
+  before_action :set_movie, only: [:show, :edit, :update, :destroy, :poster_img]
 
   # GET /movies
   # GET /movies.json
@@ -67,6 +67,16 @@ class MoviesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  # Redirect to actual imdb URL
+  def poster_img
+    ok, data = omdb_query(@movie.imdb)
+    if ok
+      redirect_to data[:Poster], status: :moved_permanently
+    else
+      render nothing: true, status: :not_found
     end
   end
 
