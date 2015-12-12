@@ -39,6 +39,9 @@ gem 'sparql-client', '~> 1.99'
 # HTTP request lib for OMDB
 gem 'http'
 
+# Use redis to cache OMDB and SPARQL requests
+gem 'redis'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
