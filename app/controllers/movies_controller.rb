@@ -11,6 +11,13 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
+    ok, data = omdb_query(@movie.imdb)
+    if ok
+      @plot = data[:Plot]
+      @poster_url = data[:Poster]
+    else
+      flash[:warning] = 'Cannot retrieve details from IMDB'
+    end
   end
 
   # GET /movies/new
