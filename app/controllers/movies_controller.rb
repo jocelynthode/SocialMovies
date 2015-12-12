@@ -76,7 +76,7 @@ class MoviesController < ApplicationController
     if ok
       redirect_to data[:Poster], status: :moved_permanently
     else
-      render nothing: true, status: :not_found
+      head :not_found
     end
   end
 
