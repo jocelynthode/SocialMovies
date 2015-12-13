@@ -10,25 +10,16 @@ class SearchController < ApplicationController
   def actor
     #actor_name = 'Jack Nicholson'
     # @actor_name = params[:actor_name] # in order to be available in the view
-    q = %Q(
-      SELECT ?id ?title ?actorName ?releaseDate
-      WHERE {
-        ?a rdf:type movie:actor .
-        ?a movie:actor_name ?actorName .
-        FILTER regex(?actorName, '^.*#{search_query(true)}', 'i')
-        ?movies rdf:type movie:film .
-        ?movies rdfs:label ?title .
-        ?movies movie:actor ?a .
-        ?movies movie:filmid ?id .
-        ?movies movie:initial_release_date ?releaseDate .
-      }
-      ORDER BY ?title
-    )
-    res = RemoteData.linkedmdb_query(q)
-    @movies = res[:results][:bindings].each do |movie|
+    bindings = search_query([:actorName], %[
+      ?movies movie:actor ?a .
+      ?a rdf:type movie:actor .
+      ?a movie:actor_name ?actorName .
+      FILTER regex(?actorName, '^.*#{query_param(true)}', 'i')
+    ])
+    @movies = bindings.each do |movie|
       movie[:matching_value] = movie[:actorName][:value]
     end
-    render 'results', locals: {title: "Movies with one of the actor name containing '#{search_query}"}
+    render 'results', locals: {title: "Movies with one of the actor name containing '#{query_param}'"}
   end
 
   # Search by movie name
@@ -36,20 +27,10 @@ class SearchController < ApplicationController
   def movie
     #movie_name = 'Batman'
     # @movie_name = params[:movie_name] # in order to be available in the view
-    q = %Q(
-      SELECT ?id ?title ?releaseDate
-      WHERE {
-        ?movies rdf:type movie:film .
-        ?movies rdfs:label ?title .
-        FILTER regex(?title, '^.*#{search_query(true)}', 'i')
-        ?movies movie:filmid ?id .
-        ?movies movie:initial_release_date ?releaseDate .
-      }
-      ORDER BY ?title
-    )
-    res = RemoteData.linkedmdb_query(q)
-    @movies = res[:results][:bindings]
-    render 'results', locals: {title: "Movies with title containing '#{search_query}'"}
+    @movies = search_query([], %[
+      FILTER regex(?title, '^.*#{query_param(true)}', 'i')
+    ])
+    render 'results', locals: {title: "Movies with title containing '#{query_param}'"}
   end
 
   # Search by year
@@ -57,20 +38,10 @@ class SearchController < ApplicationController
   def year
     #movie_year = '2014'
     # @movie_year = params[:movie_year] # in order to be available in the view
-    q = %Q(
-      SELECT ?id ?title ?releaseDate
-      WHERE {
-        ?movies rdf:type movie:film .
-        ?movies rdfs:label ?title .
-        ?movies movie:initial_release_date ?releaseDate .
-        FILTER regex(?releaseDate, '^#{search_query(true)}')
-        ?movies movie:filmid ?id .
-      }
-      ORDER BY ?title
-    )
-    res = RemoteData.linkedmdb_query(q)
-    @movies = res[:results][:bindings]
-    render 'results', locals: {title: "Movies released in #{search_query}"}
+    @movies = search_query([], %[
+      FILTER regex(?releaseDate, '^#{query_param(true)}')
+    ])
+    render 'results', locals: {title: "Movies released in #{query_param}"}
   end
 
   # Search by director
@@ -78,30 +49,43 @@ class SearchController < ApplicationController
   def director
     #movie_dir = 'Stanley Kubrik'
     # @movie_dir = params[:movie_dir] # in order to be available in the view
-    q = %Q(
-      SELECT ?id ?title ?directorName ?releaseDate
-      WHERE {
-        ?movies rdf:type movie:film .
-        ?movies rdfs:label ?title .
-        ?d rdf:type movie:director .
-        ?movies movie:director ?d .
-        ?d movie:director_name ?directorName .
-        FILTER regex(?directorName, '^.*#{search_query(true)}', 'i')
-        ?movies movie:initial_release_date ?releaseDate .
-        ?movies movie:filmid ?id .
-      }
-      ORDER BY ?title
-    )
-    res = RemoteData.linkedmdb_query(q)
-    @movies = res[:results][:bindings].each do |movie|
+    bindings = search_query([:directorName], %[
+      ?d rdf:type movie:director .
+      ?movies movie:director ?d .
+      ?d movie:director_name ?directorName .
+      FILTER regex(?directorName, '^.*#{query_param(true)}', 'i')
+    ])
+    @movies = bindings.each do |movie|
       movie[:matching_value] = movie[:directorName][:value]
     end
-    render 'results', locals: {title: "Movies whose director's name contains #{search_query}'"}
+    render 'results', locals: {title: "Movies whose director's name contains '#{query_param}'"}
   end
 
   private
 
-  def search_query(escape=false)
+  # Try to factorize everything common in each search request
+  def search_query(output_vars, predicates)
+    variables = output_vars.map do |var|
+      (var.is_a? Symbol) ? var.to_s.prepend('?') : var
+    end
+    q = %Q(
+      SELECT ?id ?title ?releaseDate ?imdb #{variables.join(' ')}
+      WHERE {
+        ?movies rdf:type movie:film .
+        ?movies movie:filmid ?id .
+        ?movies rdfs:label ?title .
+        ?movies movie:initial_release_date ?releaseDate .
+        #{predicates}
+        ?movies foaf:page ?imdb .
+        FILTER regex(str(?imdb), '^http://www.imdb.com/title/')
+      }
+      ORDER BY ?title
+    )
+    res = RemoteData.linkedmdb_query(q)
+    res[:results][:bindings]
+  end
+
+  def query_param(escape=false)
     if escape
       # This is not safe! We just want to allow the user to enter single quotes
       # without the search failing.
