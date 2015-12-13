@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
     ok, data = RemoteData.omdb_query(@movie.imdb)
     if ok
       @plot = data[:Plot]
-      @poster_url = data[:Poster]
+      @poster_url = data[:Poster] unless data[:Poster] == 'N/A'
     else
       flash[:warning] = 'Cannot retrieve details from IMDB'
     end
