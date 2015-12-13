@@ -18,7 +18,17 @@
   </ul>
 </p>
 
-<%= link_to 'Add to playlist', lists_path(@movie) %> |
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> Add to list <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <% @lists.each do |list| %>
+      <li><%= link_to list.name, movielists_path(:list_id => list.id, :movie_id => @movie.id), method: :post %></li>
+    <% end %>
+  </ul>
+</div>
+
 <%= link_to 'Edit', edit_movie_path(@movie) %> |
 <%= link_to 'Back', movies_path %>
 <%= link_to 'Recommend', recommend_movie_path, method: :put %>

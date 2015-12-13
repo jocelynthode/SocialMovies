@@ -1,7 +1,7 @@
 class Movie < ActiveRecord::Base
-  has_and_belongs_to_many :lists
+  has_many :movielists
+  has_many :lists, through: :movielists
   attr_accessor :title, :release_date, :actors, :imdb
-
 
   # Retrieve movie model from datastore and add entry in local DB
   def self.retrieve(mid)

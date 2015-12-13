@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206144613) do
+ActiveRecord::Schema.define(version: 20151213134725) do
 
   create_table "lists", force: :cascade do |t|
     t.string   "name"
@@ -22,13 +22,10 @@ ActiveRecord::Schema.define(version: 20151206144613) do
 
   add_index "lists", ["user_id"], name: "index_lists_on_user_id"
 
-  create_table "lists_movies", id: false, force: :cascade do |t|
+  create_table "movielists", force: :cascade do |t|
     t.integer "list_id"
     t.integer "movie_id"
   end
-
-  add_index "lists_movies", ["list_id"], name: "index_lists_movies_on_list_id"
-  add_index "lists_movies", ["movie_id"], name: "index_lists_movies_on_movie_id"
 
   create_table "movies", force: :cascade do |t|
     t.datetime "created_at", null: false
