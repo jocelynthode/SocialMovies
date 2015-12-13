@@ -15,3 +15,12 @@
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+
+Turbolinks.enableProgressBar();
+
+// send forms with data-turboform attribute through turbolinks
+// see: http://stackoverflow.com/a/20383069/979362
+$(document).on("submit", "form[data-turboform]", function(e) {
+    Turbolinks.visit(this.action+(this.action.indexOf('?') == -1 ? '?' : '&')+$(this).serialize());
+    return false;
+});
