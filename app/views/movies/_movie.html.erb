@@ -9,7 +9,7 @@
           <%= link_to movie_path(movie) do %>
           <%= image_tag poster_movie_path(movie.imdb), style: 'max-height: 150px;' %>
           <div class="row text-center">
-            <h4><%= movie.title %> (<%= movie.release_date.to_date.year %>)</h4>
+            <h4><%= movie.title %> (<%= movie.release_date %>)</h4>
           </div>
           <% end %>
         </div>
@@ -38,12 +38,13 @@
     <% end %>
     <!-- Single button -->
     <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Add to a list <span class="caret"></span>
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> Add to list <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><a href="#">Watch it later</a></li>
-        <li><a href="#">Watched</a></li>
+        <% @lists.each do |list| %>
+          <li><%= link_to list.name, movielists_path(:list_id => list.id, :movie_id => movie.id), method: :post %></li>
+        <% end %>
       </ul>
     </div>
   </div>

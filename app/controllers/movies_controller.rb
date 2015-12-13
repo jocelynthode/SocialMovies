@@ -6,6 +6,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @movies = Movie.all.each(&:retrieve!)
+    @lists = List.order("name ASC").where("user_id = ?", current_user.id)
   end
 
   # GET /movies/1
