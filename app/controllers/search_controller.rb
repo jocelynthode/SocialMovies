@@ -10,14 +10,14 @@ class SearchController < ApplicationController
   def actor
     #actor_name = 'Jack Nicholson'
     # @actor_name = params[:actor_name] # in order to be available in the view
-    bindings = search_query([:actorName], %[
+    results = search_query([:actorName], %[
       ?movies movie:actor ?a .
       ?a rdf:type movie:actor .
       ?a movie:actor_name ?actorName .
       FILTER regex(?actorName, '^.*#{query_param(true)}', 'i')
     ])
-    @movies = bindings.each do |movie|
-      movie[:matching_value] = movie[:actorName][:value]
+    @movies = results.each do |movie|
+      movie[:matching_value] = movie[:actorName]
     end
     render 'results', locals: {title: "Movies with one of the actor name containing '#{query_param}'"}
   end
@@ -49,14 +49,14 @@ class SearchController < ApplicationController
   def director
     #movie_dir = 'Stanley Kubrik'
     # @movie_dir = params[:movie_dir] # in order to be available in the view
-    bindings = search_query([:directorName], %[
+    results = search_query([:directorName], %[
       ?d rdf:type movie:director .
       ?movies movie:director ?d .
       ?d movie:director_name ?directorName .
       FILTER regex(?directorName, '^.*#{query_param(true)}', 'i')
     ])
-    @movies = bindings.each do |movie|
-      movie[:matching_value] = movie[:directorName][:value]
+    @movies = results.each do |movie|
+      movie[:matching_value] = movie[:directorName]
     end
     render 'results', locals: {title: "Movies whose director's name contains '#{query_param}'"}
   end
@@ -81,12 +81,16 @@ class SearchController < ApplicationController
       }
       ORDER BY ?title
     )
-    res = RemoteData.linkedmdb_query(q)
-    bindings = res[:results][:bindings]
-    bindings.each do |movie|
-      movie[:imdb_id] = movie[:imdb][:value].split('/').last
+    response = RemoteData.linkedmdb_query(q)
+    movies = response[:results][:bindings].map do |binding|
+      movie = {}
+      binding.keys.each do |attr|
+        movie[attr] = binding[attr][:value]
+      end
+      movie[:imdb_id] = binding[:imdb][:value].split('/').last
+      movie
     end
-    bindings
+    movies
   end
 
   def query_param(escape=false)

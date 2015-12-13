@@ -2,12 +2,12 @@
   <td>
     <%= image_tag poster_movie_path(movie[:imdb_id]), alt: '',
                   style: 'float: left; height: 100px; margin-right: 20px' %>
-    <%= movie[:title][:value] %>
+    <%= movie[:title] %>
   </td>
   <td><%=
       if movie.has_key? :releaseDate
-        movie[:releaseDate][:value]
+        movie[:releaseDate]
       end %></td>
   <td><%= movie[:matching_value] %></td>
-  <td><%= link_to 'Show', movie_path(movie[:id][:value]) %></td>
+  <td><%= link_to 'Show', movie_path(movie[:id]) %></td>
 </tr>
