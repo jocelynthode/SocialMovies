@@ -1,0 +1,51 @@
+<div class="col-lg-3 col-md-3">
+      <div class="panel">
+        <div class="panel-heading panel-default">
+          <div class="row">
+            <%= link_to fa_icon('times lg fw'),
+                        hide_movie_path(movie), method: :put,
+                        class: 'pull-right', id: 'hide' %>
+          </div>
+          <%= link_to movie_path(movie) do %>
+          <%= image_tag poster_movie_path(movie.imdb), style: 'max-height: 150px;' %>
+          <div class="row text-center">
+            <h4><%= movie[:title] %> (<%= movie.release_date.to_date.year %>)</h4>
+          </div>
+          <% end %>
+        </div>
+  <div class="panel-footer text-center">
+    <% if user_signed_in? && current_user.likes?(movie) %>
+        <%= link_to fa_icon('thumbs-up lg fw'),
+                    recommend_movie_path(movie), method: :put,
+                    class: 'btn btn-default', style: 'color:green;', role: 'button' %>
+    <% elsif user_signed_in? && current_user.dislikes?(movie) %>
+        <%= link_to fa_icon('thumbs-down lg fw'),
+                    recommend_movie_path(movie), method: :put,
+                    class: 'btn btn-default', style: 'color:red;', role: 'button' %>
+    <% else %>
+        <%= link_to fa_icon('thumbs-up lg fw'),
+                    recommend_movie_path(movie), method: :put,
+                    class: 'btn btn-default', role: 'button' %>
+    <% end %>
+    <% if user_signed_in? && current_user.bookmarks?(movie) %>
+        <%= link_to fa_icon('star lg fw'),
+                    bookmark_movie_path(movie), method: :put,
+                    class: 'btn btn-default', style: 'color:gold;', role: 'button' %>
+    <% else %>
+        <%= link_to fa_icon('star-o lg fw'),
+                    bookmark_movie_path(movie), method: :put,
+                    class: 'btn btn-default button-follow', style: 'color:gold;', role: 'button' %>
+    <% end %>
+    <!-- Single button -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add to a list <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#">Watch it later</a></li>
+        <li><a href="#">Watched</a></li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>

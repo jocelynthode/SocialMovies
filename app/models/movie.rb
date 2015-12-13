@@ -1,6 +1,6 @@
 class Movie < ActiveRecord::Base
   has_and_belongs_to_many :lists
-  attr_accessor :title, :releaseDate, :actors, :imdb
+  attr_accessor :title, :release_date, :actors, :imdb
 
 
   # Retrieve movie model from datastore and add entry in local DB
@@ -28,7 +28,7 @@ class Movie < ActiveRecord::Base
 
     movie = Movie.find_or_create_by(id: mid)
     movie.title = bindings[0][:title][:value]
-    movie.releaseDate = bindings[0][:releaseDate][:value]
+    movie.release_date = bindings[0][:releaseDate][:value]
     movie.imdb = bindings[0][:imdb][:value].split('/').last
     movie.actors = bindings.map{|x| x[:actorName]}.compact.map{|x| x[:value]}
     movie
@@ -39,7 +39,7 @@ class Movie < ActiveRecord::Base
     raise %q('id' cannot be null) if not self.id
     res = self.class.retrieve(self.id)
     self.title = res.title
-    self.releaseDate = res.releaseDate
+    self.release_date = res.release_date
     self.actors = res.actors
     self.imdb = res.imdb
     self
