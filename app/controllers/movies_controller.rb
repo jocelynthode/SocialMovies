@@ -1,11 +1,11 @@
 class MoviesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show, :poster_img]
-  before_action :set_movie, only: [:show, :edit, :update, :destroy, :poster_img]
+  before_action :set_movie, only: [:show, :edit, :update, :destroy]
 
   # GET /movies
   # GET /movies.json
   def index
-    @movies = Movie.all
+    @movies = Movie.all.each(&:retrieve!)
   end
 
   # GET /movies/1
@@ -72,7 +72,7 @@ class MoviesController < ApplicationController
 
   # Redirect to actual imdb URL
   def poster_img
-    ok, data = RemoteData.omdb_query(@movie.imdb)
+    ok, data = RemoteData.omdb_query(params[:imdb_id])
     if ok
       redirect_to data[:Poster], status: :moved_permanently
     else
