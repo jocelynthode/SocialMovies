@@ -1,13 +1,22 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Name:</strong>
   <%= @list.name %>
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @list.user.email %>
+  <strong>Movies:</strong>
+  <% if !@list.movielists.empty? %>
+    <ul>
+    <% @list.movielists.each do |movielist| %>
+      <!-- TODO:  - get movie title
+                  - give possibility to add the movie to another list
+      -->
+      <li><%= movielist.movie_id %> <%= link_to 'Remove', movielist, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+    <% end %>
+    </ul>
+  <% else %>
+    <p>No movie in this list.</p>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_list_path(@list) %> |

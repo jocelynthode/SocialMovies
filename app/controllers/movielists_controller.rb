@@ -7,7 +7,7 @@ class MovielistsController < ApplicationController
     @movielists = Movielist.all
   end
 
-  # GET /lists/1
+  # GET /movielists/1
   def show
   end
 
@@ -21,7 +21,6 @@ class MovielistsController < ApplicationController
   end
 
   # POST /movielists
-  # POST /movielists.json
   def create
     @movielist = Movielist.find_or_create_by(movielist_params2)
 
@@ -34,7 +33,7 @@ class MovielistsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /lists/1
+  # PATCH/PUT /movielists/1
   def update
     respond_to do |format|
       if @movielist.update(movielist_params)
@@ -45,11 +44,12 @@ class MovielistsController < ApplicationController
     end
   end
 
-  # DELETE /lists/1
+  # DELETE /movielists/1
   def destroy
+    list_id = @movielist.list_id
     @movielist.destroy
     respond_to do |format|
-      format.html { redirect_to movielists_url, notice: 'Movie was successfully removed to your list.' }
+      format.html { redirect_to list_path(list_id), notice: 'Movie was successfully removed from your list.' }
     end
   end
 

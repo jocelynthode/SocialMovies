@@ -4,7 +4,8 @@ class ListsController < ApplicationController
 
   # GET /lists
   def index
-    @lists = List.all
+    # @lists = List.all
+    @lists = List.order("name ASC").where("user_id = ?", current_user.id)
   end
 
   # GET /lists/1
