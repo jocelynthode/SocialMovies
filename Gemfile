@@ -48,6 +48,11 @@ gem 'redis'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+# Use recommendable for like/dislike
+gem 'sidekiq'
+gem 'sidekiq-middleware'
+gem 'recommendable'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

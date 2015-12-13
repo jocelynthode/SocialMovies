@@ -9,6 +9,14 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'devise/sessions#destroy'
   end
 
+  resources :movies do
+    member do
+      put 'recommend', to: 'movies#toggle_recommendation'
+      put 'bookmark', to: 'movies#toggle_bookmark'
+      put 'hide', to: 'movies#hide'
+    end
+  end
+
   get 'welcome/index'
   get 'search', to: 'search#index'
   get 'search/movie'

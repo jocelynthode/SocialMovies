@@ -21,3 +21,6 @@
 <%= link_to 'Add to playlist', lists_path(@movie) %> |
 <%= link_to 'Edit', edit_movie_path(@movie) %> |
 <%= link_to 'Back', movies_path %>
+<%= link_to 'Recommend', recommend_movie_path, method: :put %>
+<%= link_to 'Bookmark', bookmark_movie_path, method: :put %>
+<%= link_to 'Hide', hide_movie_path, method: :put %>
