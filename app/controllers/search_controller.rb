@@ -82,7 +82,11 @@ class SearchController < ApplicationController
       ORDER BY ?title
     )
     res = RemoteData.linkedmdb_query(q)
-    res[:results][:bindings]
+    bindings = res[:results][:bindings]
+    bindings.each do |movie|
+      movie[:imdb_id] = movie[:imdb][:value].split('/').last
+    end
+    bindings
   end
 
   def query_param(escape=false)

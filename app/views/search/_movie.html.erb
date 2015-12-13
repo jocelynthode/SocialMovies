@@ -1,5 +1,9 @@
 <tr>
-  <td><%= movie[:title][:value] %></td>
+  <td>
+    <%= image_tag poster_movie_path(movie[:imdb_id]), alt: '',
+                  style: 'float: left; height: 100px; margin-right: 20px' %>
+    <%= movie[:title][:value] %>
+  </td>
   <td><%=
       if movie.has_key? :releaseDate
         movie[:releaseDate][:value]
