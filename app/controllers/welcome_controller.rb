@@ -4,9 +4,9 @@ class WelcomeController < ApplicationController
   #TODO refactor the map functions
   def index
     if user_signed_in?
-      @movies = current_user.recommended_movies.empty? ? Movie.top.map(&:retrieve!) : current_user.recommended_movies.map(&:retrieve!)
+      @movies = current_user.recommended_movies.empty? ? Movie.top(10).map(&:retrieve!) : current_user.recommended_movies.map(&:retrieve!)
     else
-      @movies = Movie.top.map(&:retrieve!)
+      @movies = Movie.top(10).map(&:retrieve!)
     end
 
   end
