@@ -9,7 +9,7 @@
           <%= link_to movie_path(movie) do %>
           <%= image_tag poster_movie_path(movie.imdb), style: 'max-height: 150px;' %>
           <div class="row text-center">
-            <h4><%= movie[:title] %> (<%= movie.release_date.to_date.year %>)</h4>
+            <h4><%= movie.title %> (<%= movie.release_date.to_date.year %>)</h4>
           </div>
           <% end %>
         </div>
