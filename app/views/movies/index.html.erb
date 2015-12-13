@@ -2,22 +2,27 @@
 
 <h1>Listing Movies</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
-    <tr>
-      <th>Mid</th>
-      <th colspan="2"></th>
-    </tr>
+  <tr>
+    <th>Movie</th>
+    <th>Movie ID</th>
+    <th colspan="2">Release date</th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @movies.each do |movie| %>
+  <% @movies.each do |movie| %>
       <tr>
+        <td><%= image_tag poster_movie_path(movie.imdb),
+                          style: 'max-height: 100px; float: left; margin-right: 20px' %>
+          <%= movie.title %>
+        </td>
         <td><%= movie.id %></td>
-        <td><%= image_tag poster_movie_path(movie.imdb), style: 'max-height: 100px'%></td>
+        <td><%= movie.releaseDate %></td>
         <td><%= link_to 'Show', movie %></td>
       </tr>
-    <% end %>
+  <% end %>
   </tbody>
 </table>
 
