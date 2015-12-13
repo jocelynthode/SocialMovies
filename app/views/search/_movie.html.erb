@@ -1,0 +1,9 @@
+<tr>
+  <td><%= movie[:title][:value] %></td>
+  <td><%=
+      if movie.has_key? :releaseDate
+        movie[:releaseDate][:value]
+      end %></td>
+  <td><%= movie[:matching_value] %></td>
+  <td><%= link_to 'Show', movie_path(movie[:id][:value]) %></td>
+</tr>

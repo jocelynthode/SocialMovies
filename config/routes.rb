@@ -4,17 +4,17 @@ Rails.application.routes.draw do
   devise_for :users
 
   devise_scope :user do
-    get "sign_in", to: "devise/sessions#new"
-    get "sign_up", to: "devise/registrations#new"
-    delete "sign_out", to: "devise/sessions#destroy"
+    get 'sign_in', to: 'devise/sessions#new'
+    get 'sign_up', to: 'devise/registrations#new'
+    delete 'sign_out', to: 'devise/sessions#destroy'
   end
 
   get 'welcome/index'
-  get 'search/index'
-  post 'search/movie'
-  post 'search/year'
-  post 'search/director'
-  post 'search/actor'
+  get 'search', to: 'search#index'
+  get 'search/movie'
+  get 'search/year'
+  get 'search/director'
+  get 'search/actor'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
