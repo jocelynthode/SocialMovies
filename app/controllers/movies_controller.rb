@@ -81,11 +81,19 @@ class MoviesController < ApplicationController
     end
   end
 
+
+
   def toggle_recommendation
-    if current_user.likes?(@movie)
+    if current_user.likes?(@movie) && params[:thumbs_up] == 'false' ||
+        !current_user.dislikes?(@movie) && !current_user.likes?(@movie) && params[:thumbs_up] == 'false'
       current_user.dislike(@movie)
-    else
+    elsif current_user.likes?(@movie) && params[:thumbs_up] == 'true'
+      current_user.unlike(@movie)
+    elsif current_user.dislikes?(@movie) && params[:thumbs_up] == 'true' ||
+        !current_user.dislikes?(@movie) && !current_user.likes?(@movie) && params[:thumbs_up] == 'true'
       current_user.like(@movie)
+    elsif current_user.dislikes?(@movie) && params[:thumbs_up] == 'false'
+      current_user.undislike(@movie)
     end
   end
 

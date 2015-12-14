@@ -3,7 +3,7 @@
 <h1>Listing Movies</h1>
 
 <div class="row">
-  <%= render partial: 'movies/movie', collection: @movies %>
+  <%= render partial: 'movies/movie', collection: user_signed_in? ? (@movies - current_user.hiding) : @movies %>
 </div>
 
 <br>

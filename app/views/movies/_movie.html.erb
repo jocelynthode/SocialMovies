@@ -15,36 +15,32 @@
         </div>
   <div class="panel-footer text-center">
     <% if user_signed_in? && current_user.likes?(movie) %>
-        <%= link_to fa_icon('thumbs-up lg fw'),
-                    recommend_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default like-button', role: 'button' %>
-        <%= link_to fa_icon('thumbs-o-down lg fw'),
-                    recommend_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default dislike-button', role: 'button' %>
+        <% thumbs_up_class = 'thumbs-up lg fw'
+            thumbs_down_class = 'thumbs-o-down lg fw'
+        %>
     <% elsif user_signed_in? && current_user.dislikes?(movie) %>
-        <%= link_to fa_icon('thumbs-o-up lg fw'),
-                    recommend_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default like-button', role: 'button' %>
-        <%= link_to fa_icon('thumbs-down lg fw'),
-                    recommend_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default dislike-button', role: 'button' %>
+        <% thumbs_up_class = 'thumbs-o-up lg fw'
+            thumbs_down_class = 'thumbs-down lg fw'
+        %>
     <% else %>
-        <%= link_to fa_icon('thumbs-o-up lg fw'),
-                    recommend_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default like-button', role: 'button' %>
-        <%= link_to fa_icon('thumbs-o-down lg fw'),
-                    recommend_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default dislike-button', role: 'button' %>
+        <% thumbs_up_class = 'thumbs-o-up lg fw'
+            thumbs_down_class = 'thumbs-o-down lg fw'
+        %>
     <% end %>
+    <%= link_to fa_icon(thumbs_up_class),
+                recommend_movie_path(movie, thumbs_up: true), remote: true, method: :put,
+                class: 'btn btn-default like-button', role: 'button' %>
+    <%= link_to fa_icon(thumbs_down_class),
+                recommend_movie_path(movie, thumbs_up: false), remote: true, method: :put,
+                class: 'btn btn-default dislike-button', role: 'button' %>
     <% if user_signed_in? && current_user.bookmarks?(movie) %>
-        <%= link_to fa_icon('star lg fw'),
-                    bookmark_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default bookmark-button', style: 'color:gold;', role: 'button' %>
+        <% star_class = 'star lg fw' %>
     <% else %>
-        <%= link_to fa_icon('star-o lg fw'),
-                    bookmark_movie_path(movie), remote: true, method: :put,
-                    class: 'btn btn-default bookmark-button', style: 'color:gold;', role: 'button' %>
+        <% star_class = 'star-o lg fw' %>
     <% end %>
+    <%= link_to fa_icon(star_class),
+                bookmark_movie_path(movie), remote: true, method: :put,
+                class: 'btn btn-default bookmark-button', style: 'color:gold;', role: 'button' %>
     <!-- Single button -->
     <div class="btn-group">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
