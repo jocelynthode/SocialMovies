@@ -1,3 +1,17 @@
 // Place all the styles related to the movies controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.movie-card[data-state="liked"] {
+   .like-button i {
+     @extend .fa-thumbs-up;
+     color: $brand-success;
+   }
+}
+
+.movie-card[data-state="disliked"] {
+  .dislike-button i{
+    @extend .fa-thumbs-down;
+    color: $brand-danger;
+  }
+}

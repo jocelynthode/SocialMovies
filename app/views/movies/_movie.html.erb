@@ -1,4 +1,12 @@
-<%= content_tag :div, class: 'col-lg-3 col-md-3', data: {id: movie.id} do %>
+<% if user_signed_in? && current_user.likes?(movie) %>
+    <% liked_state = 'liked' %>
+<% elsif user_signed_in? && current_user.dislikes?(movie) %>
+    <% liked_state = 'disliked' %>
+<% else %>
+    <% liked_state = nil %>
+<% end %>
+<%= content_tag :div, class: 'col-lg-3 col-md-3 movie-card',
+                data: {id: movie.id, state: liked_state} do %>
       <div class="panel">
         <div class="panel-heading panel-default">
           <div class="row">
@@ -14,23 +22,10 @@
           <% end %>
         </div>
   <div class="panel-footer text-center">
-    <% if user_signed_in? && current_user.likes?(movie) %>
-        <% thumbs_up_class = 'thumbs-up lg fw'
-            thumbs_down_class = 'thumbs-o-down lg fw'
-        %>
-    <% elsif user_signed_in? && current_user.dislikes?(movie) %>
-        <% thumbs_up_class = 'thumbs-o-up lg fw'
-            thumbs_down_class = 'thumbs-down lg fw'
-        %>
-    <% else %>
-        <% thumbs_up_class = 'thumbs-o-up lg fw'
-            thumbs_down_class = 'thumbs-o-down lg fw'
-        %>
-    <% end %>
-    <%= link_to fa_icon(thumbs_up_class),
+    <%= link_to fa_icon('thumbs-o-up lg fw'),
                 recommend_movie_path(movie, thumbs_up: true), remote: true, method: :put,
                 class: 'btn btn-default like-button', role: 'button' %>
-    <%= link_to fa_icon(thumbs_down_class),
+    <%= link_to fa_icon('thumbs-o-down lg fw'),
                 recommend_movie_path(movie, thumbs_up: false), remote: true, method: :put,
                 class: 'btn btn-default dislike-button', role: 'button' %>
     <% if user_signed_in? && current_user.bookmarks?(movie) %>

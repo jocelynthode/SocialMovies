@@ -1,4 +1,3 @@
 (function() {
-  $('[data-id="<%= @movie.id %>"] .like-button > i').toggleClass('fa-thumbs-o-up fa-thumbs-up');
-  $('[data-id="<%= @movie.id %>"] .dislike-button > i').toggleClass('fa-thumbs-o-down fa-thumbs-down');
+  $('[data-id="<%= @movie.id %>"].movie-card').attr('data-state', '<%= @liked_state %>')
 })()

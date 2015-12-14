@@ -84,14 +84,17 @@ class MoviesController < ApplicationController
 
 
   def toggle_recommendation
+    @liked_state = nil
     if current_user.likes?(@movie) && params[:thumbs_up] == 'false' ||
         !current_user.dislikes?(@movie) && !current_user.likes?(@movie) && params[:thumbs_up] == 'false'
       current_user.dislike(@movie)
+      @liked_state = :disliked
     elsif current_user.likes?(@movie) && params[:thumbs_up] == 'true'
       current_user.unlike(@movie)
     elsif current_user.dislikes?(@movie) && params[:thumbs_up] == 'true' ||
         !current_user.dislikes?(@movie) && !current_user.likes?(@movie) && params[:thumbs_up] == 'true'
       current_user.like(@movie)
+      @liked_state = :liked
     elsif current_user.dislikes?(@movie) && params[:thumbs_up] == 'false'
       current_user.undislike(@movie)
     end
