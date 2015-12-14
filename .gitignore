@@ -333,3 +333,7 @@ pythontex-files-*/
 # endfloat
 *.ttt
 *.fff
+
+
+# redis
+dump.rdb

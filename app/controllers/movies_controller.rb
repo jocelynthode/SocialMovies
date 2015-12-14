@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  respond_to :js, only: [:toggle_recommendation, :toggle_bookmark, :hide]
   skip_before_action :authenticate_user!, only: [:index, :show, :poster_img]
   before_action :set_movie, only: [:show, :edit, :update, :destroy, :toggle_bookmark, :toggle_recommendation, :hide]
 
@@ -86,7 +87,6 @@ class MoviesController < ApplicationController
     else
       current_user.like(@movie)
     end
-    redirect_to :back
   end
 
   def toggle_bookmark
@@ -95,12 +95,10 @@ class MoviesController < ApplicationController
     else
       current_user.bookmark(@movie)
     end
-    redirect_to :back
   end
 
   def hide
     current_user.hide(@movie)
-    redirect_to :back
   end
 
   private

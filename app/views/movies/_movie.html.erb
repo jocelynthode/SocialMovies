@@ -3,8 +3,8 @@
         <div class="panel-heading panel-default">
           <div class="row">
             <%= link_to fa_icon('times lg fw'),
-                        hide_movie_path(movie), method: :put,
-                        class: 'pull-right', id: 'hide' %>
+                        hide_movie_path(movie), remote: true, method: :put,
+                        class: 'pull-right', data: {id: movie.id} %>
           </div>
           <%= link_to movie_path(movie) do %>
           <%= image_tag poster_movie_path(movie.imdb), style: 'max-height: 150px;' %>
@@ -16,25 +16,34 @@
   <div class="panel-footer text-center">
     <% if user_signed_in? && current_user.likes?(movie) %>
         <%= link_to fa_icon('thumbs-up lg fw'),
-                    recommend_movie_path(movie), method: :put,
-                    class: 'btn btn-default', style: 'color:green;', role: 'button' %>
+                    recommend_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', role: 'button', data: {id: movie.id}, disabled: true %>
+        <%= link_to fa_icon('thumbs-o-down lg fw'),
+                    recommend_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', role: 'button', data: {id: movie.id} %>
     <% elsif user_signed_in? && current_user.dislikes?(movie) %>
+        <%= link_to fa_icon('thumbs-o-up lg fw'),
+                    recommend_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', role: 'button', data: {id: movie.id}  %>
         <%= link_to fa_icon('thumbs-down lg fw'),
-                    recommend_movie_path(movie), method: :put,
-                    class: 'btn btn-default', style: 'color:red;', role: 'button' %>
+                    recommend_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', role: 'button', data: {id: movie.id}, disabled: true %>
     <% else %>
-        <%= link_to fa_icon('thumbs-up lg fw'),
-                    recommend_movie_path(movie), method: :put,
-                    class: 'btn btn-default', role: 'button' %>
+        <%= link_to fa_icon('thumbs-o-up lg fw'),
+                    recommend_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', role: 'button', data: {id: movie.id}  %>
+        <%= link_to fa_icon('thumbs-o-down lg fw'),
+                    recommend_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', role: 'button', data: {id: movie.id} %>
     <% end %>
     <% if user_signed_in? && current_user.bookmarks?(movie) %>
         <%= link_to fa_icon('star lg fw'),
-                    bookmark_movie_path(movie), method: :put,
-                    class: 'btn btn-default', style: 'color:gold;', role: 'button' %>
+                    bookmark_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', style: 'color:gold;', role: 'button', data: {id: movie.id}  %>
     <% else %>
         <%= link_to fa_icon('star-o lg fw'),
-                    bookmark_movie_path(movie), method: :put,
-                    class: 'btn btn-default button-follow', style: 'color:gold;', role: 'button' %>
+                    bookmark_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default', style: 'color:gold;', role: 'button', data: {id: movie.id} %>
     <% end %>
     <!-- Single button -->
     <div class="btn-group">
