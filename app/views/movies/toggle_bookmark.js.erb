@@ -1,1 +1,3 @@
-$(this).toggleClass('fa-star-o fa-star');
+(function() {
+  $('[data-id="<%= @movie.id %>"] .bookmark-button > i').toggleClass('fa-star-o fa-star');
+})()
