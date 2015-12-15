@@ -1,5 +1,7 @@
 <h1>Listing Lists</h1>
 
+<div id="list-form" style="display:none;"></div>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -19,5 +21,4 @@
 </table>
 
 <br>
-
-<%= link_to 'New List', new_list_path %>
+<%= link_to 'New list', new_list_path, remote: true, :class => 'btn btn-primary' %>
