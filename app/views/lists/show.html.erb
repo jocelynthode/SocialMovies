@@ -8,10 +8,9 @@
   <% if !@list.movielists.empty? %>
     <ul>
     <% @list.movielists.each do |movielist| %>
-      <!-- TODO:  - get movie title
-                  - give possibility to add the movie to another list
+      <!-- TODO:  - give possibility to add the movie to another list
       -->
-      <li><%= movielist.movie_id %> <%= link_to 'Remove', movielist, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+      <li><%= movielist.movie.retrieve!.title %> (<%= movielist.movie.retrieve!.release_date %>) <%= link_to 'Remove', movielist, method: :delete, data: { confirm: 'Are you sure?' } %></li>
     <% end %>
     </ul>
   <% else %>
