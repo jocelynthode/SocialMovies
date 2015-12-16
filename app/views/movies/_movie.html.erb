@@ -7,8 +7,8 @@
 <% end %>
 <%= content_tag :div, class: 'col-lg-3 col-md-3 movie-card',
                 data: {id: movie.id, state: liked_state} do %>
-      <div class="panel">
-        <div class="panel-heading panel-default">
+      <div class="panel panel-default">
+        <div class="panel-heading">
           <div class="row">
             <%= link_to fa_icon('times lg fw'),
                         hide_movie_path(movie), remote: true, method: :put,
