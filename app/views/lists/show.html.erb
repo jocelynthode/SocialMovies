@@ -1,22 +1,32 @@
-<p>
-  <strong>Name:</strong>
-  <%= @list.name %>
-</p>
-
-<p>
-  <strong>Movies:</strong>
-  <% if !@list.movielists.empty? %>
-    <ul>
-    <% @list.movielists.each do |movielist| %>
-      <!-- TODO:  - give possibility to add the movie to another list
-      -->
-      <li><%= movielist.movie.retrieve!.title %> (<%= movielist.movie.retrieve!.release_date %>) <%= link_to 'Remove', movielist, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+<h1><%= @list.name %></h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Release date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if !@list.movielists.empty? %>
+      <tr>
+      <% @list.movielists.each do |movielist| %>
+        <!-- TODO:  - give possibility to add the movie to another list
+        -->
+        <td><%= movielist.movie.retrieve!.title %></td>
+        <td><%= movielist.movie.retrieve!.release_date %></td>
+        <td><%= link_to fa_icon('eye'),
+    movielist.movie, :class => 'btn btn-xs btn-default' %> <%= link_to fa_icon('trash'),
+    movielist, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-xs btn-danger' %></td>
+      <% end %>
+    </tr>
+    <% else %>
+      <tr>
+        <td colspan="3">No movie in this list.</td>
+      </tr>
     <% end %>
-    </ul>
-  <% else %>
-    <p>No movie in this list.</p>
-  <% end %>
-</p>
+  </tbody>
+</table>
 
-<%= link_to 'Edit', edit_list_path(@list) %> |
-<%= link_to 'Back', lists_path %>
+<%= link_to 'Edit list', edit_list_path(@list), :class => 'btn btn-primary' %>
+<%= link_to 'Back to lists', lists_path, :class => 'btn btn-default' %>

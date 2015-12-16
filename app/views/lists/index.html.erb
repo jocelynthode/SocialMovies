@@ -15,7 +15,11 @@
       <% @lists.each do |list| %>
         <tr>
           <td><%= list.name %></td>
-          <td><%= link_to 'Show', list %> | <%= link_to 'Edit', edit_list_path(list) %> | <%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to fa_icon('eye'), list, class: 'btn btn-xs btn-default', role: 'button' %>
+            <%= link_to fa_icon('pencil'), edit_list_path(list),
+        :class => 'btn btn-xs btn-primary' %>
+            <%= link_to fa_icon('trash'),
+        list, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-xs btn-danger' %></td>
         </tr>
       <% end %>
     <% else %>
