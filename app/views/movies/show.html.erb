@@ -23,8 +23,16 @@
     <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> Add to list <span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
-    <% @lists.each do |list| %>
-      <li><%= link_to list.name, movielists_path(:list_id => list.id, :movie_id => @movie.id), method: :post %></li>
+    <% if !@lists.empty? %>
+      <% @lists.each do |list| %>
+        <li><%= link_to list.name, movielists_path(:list_id => list.id, :movie_id => @movie.id), method: :post %></li>
+      <% end %>
+    <% else %>
+      <li class="disabled"><a href="#">No lists available.</a></li>
+      <% if user_signed_in? %>
+        <li role="separator" class="divider"></li>
+        <li><%= link_to 'Create a new list', lists_path() %></li>
+      <% end %>
     <% end %>
   </ul>
 </div>

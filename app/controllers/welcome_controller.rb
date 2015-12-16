@@ -3,11 +3,12 @@ class WelcomeController < ApplicationController
 
   #TODO refactor the map functions
   def index
-    @lists = current_user.lists.order("name ASC")
     if user_signed_in?
       @movies = current_user.recommended_movies.empty? ? Movie.top(10).map(&:retrieve!) : current_user.recommended_movies.map(&:retrieve!)
+      @lists = current_user.lists.order("name ASC")
     else
       @movies = Movie.top(10).map(&:retrieve!)
+      @lists = ''
     end
 
   end

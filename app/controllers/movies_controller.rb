@@ -7,7 +7,11 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @movies = Movie.all.each(&:retrieve!)
-    @lists = List.order("name ASC").where("user_id = ?", current_user.id)
+    if user_signed_in?
+      @lists = current_user.lists.order("name ASC")
+    else
+      @lists = ''
+    end
   end
 
   # GET /movies/1
@@ -21,9 +25,11 @@ class MoviesController < ApplicationController
       flash[:warning] = 'Cannot retrieve details from IMDB'
     end
 
-    @lists = List.order("name ASC").where("user_id = ?", current_user.id)
-    # @movielists = Movielist.where("movie_id = ?", params[:id])
-    # puts @lists
+    if user_signed_in?
+      @lists = current_user.lists.order("name ASC")
+    else
+      @lists = ''
+    end
   end
 
   # GET /movies/new

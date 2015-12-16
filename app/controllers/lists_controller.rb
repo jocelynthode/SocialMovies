@@ -1,10 +1,14 @@
 class ListsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: []
   before_action :set_list, only: [:show, :edit, :update, :destroy]
 
   # GET /lists
   def index
-    @lists = current_user.lists.order("name ASC")
+    if user_signed_in?
+      @lists = current_user.lists.order("name ASC")
+    else
+      @lists = ''
+    end
   end
 
   # GET /lists/1
