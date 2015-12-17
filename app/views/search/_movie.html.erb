@@ -4,10 +4,7 @@
                   style: 'float: left; height: 100px; margin-right: 20px' %>
     <%= movie[:title] %>
   </td>
-  <td><%=
-      if movie.has_key? :releaseDate
-        movie[:releaseDate]
-      end %></td>
+  <td><%= movie[:releaseDate] %></td>
   <td><%= movie[:matching_value] %></td>
   <td><%= link_to 'Show', movie_path(movie[:id]) %></td>
 </tr>

@@ -1,9 +1,12 @@
 <h2><%= title %></h2>
 
-<% if !@movies.nil? %>
-    <table class="table table-striped">
-      <%= render partial: 'search/movie', collection: @movies %>
-    </table>
+<% unless @groups.nil? %>
+    <% @groups.each do |group, movies| %>
+        <%= content_tag :h4, group if group %>
+        <table class="table table-striped">
+          <%= render partial: 'search/movie', collection: movies %>
+        </table>
+    <% end %>
 <% else %>
-    <p>No results</p>
+    <em>No results</em>
 <% end %>

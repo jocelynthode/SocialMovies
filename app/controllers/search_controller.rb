@@ -16,9 +16,7 @@ class SearchController < ApplicationController
       ?a movie:actor_name ?actorName .
       FILTER regex(?actorName, '^.*#{query_param(true)}', 'i')
     ])
-    @movies = results.each do |movie|
-      movie[:matching_value] = movie[:actorName]
-    end
+    @groups = results.group_by(&:actorName) unless results.empty?
     render 'results', locals: {title: "Movies with one of the actor name containing '#{query_param}'"}
   end
 
@@ -27,9 +25,10 @@ class SearchController < ApplicationController
   def movie
     #movie_name = 'Batman'
     # @movie_name = params[:movie_name] # in order to be available in the view
-    @movies = search_query([], %[
+    movies = search_query([], %[
       FILTER regex(?title, '^.*#{query_param(true)}', 'i')
     ])
+    @groups = {nil: movies} unless movies.empty?
     render 'results', locals: {title: "Movies with title containing '#{query_param}'"}
   end
 
@@ -38,9 +37,10 @@ class SearchController < ApplicationController
   def year
     #movie_year = '2014'
     # @movie_year = params[:movie_year] # in order to be available in the view
-    @movies = search_query([], %[
+    movies = search_query([], %[
       FILTER regex(?releaseDate, '^#{query_param(true)}')
     ])
+    @groups = {nil: movies} unless movies.empty?
     render 'results', locals: {title: "Movies released in #{query_param}"}
   end
 
@@ -55,9 +55,7 @@ class SearchController < ApplicationController
       ?d movie:director_name ?directorName .
       FILTER regex(?directorName, '^.*#{query_param(true)}', 'i')
     ])
-    @movies = results.each do |movie|
-      movie[:matching_value] = movie[:directorName]
-    end
+    @groups = results.group_by(&:directorName) unless results.empty?
     render 'results', locals: {title: "Movies whose director's name contains '#{query_param}'"}
   end
 
@@ -83,7 +81,7 @@ class SearchController < ApplicationController
     )
     response = RemoteData.linkedmdb_query(q)
     movies = response[:results][:bindings].map do |binding|
-      movie = {}
+      movie = OpenStruct.new
       binding.keys.each do |attr|
         movie[attr] = binding[attr][:value]
       end
