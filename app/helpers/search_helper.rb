@@ -9,4 +9,9 @@ module SearchHelper
       concat submit_tag('Search')
     end
   end
+
+  def get_movie(result)
+    attrs = result.to_h.select { |key| Movie.method_defined?(key) }
+    m = Movie.new(attrs)
+  end
 end

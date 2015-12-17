@@ -3,9 +3,11 @@
 <% unless @groups.nil? %>
     <% @groups.each do |group, movies| %>
         <%= content_tag :h4, group if group %>
-        <table class="table table-striped">
-          <%= render partial: 'search/movie', collection: movies %>
-        </table>
+        <% movies.in_groups_of(4, false).each do |movies| %>
+            <%= render partial: 'movies/movie',
+                       collection: movies.map { |m| get_movie(m) } %>
+            <div class="clearfix visible-md-block visible-lg-block"></div>
+        <% end %>
     <% end %>
 <% else %>
     <em>No results</em>

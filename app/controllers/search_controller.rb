@@ -67,12 +67,12 @@ class SearchController < ApplicationController
       (var.is_a? Symbol) ? var.to_s.prepend('?') : var
     end
     q = %Q(
-      SELECT ?id ?title ?releaseDate ?imdb #{variables.join(' ')}
+      SELECT ?id ?title ?release_date ?imdb #{variables.join(' ')}
       WHERE {
         ?movies rdf:type movie:film .
         ?movies movie:filmid ?id .
         ?movies rdfs:label ?title .
-        ?movies movie:initial_release_date ?releaseDate .
+        ?movies movie:initial_release_date ?release_date .
         #{predicates}
         ?movies foaf:page ?imdb .
         FILTER regex(str(?imdb), '^http://www.imdb.com/title/')
@@ -85,7 +85,7 @@ class SearchController < ApplicationController
       binding.keys.each do |attr|
         movie[attr] = binding[attr][:value]
       end
-      movie[:imdb_id] = binding[:imdb][:value].split('/').last
+      movie[:imdb] = binding[:imdb][:value].split('/').last
       movie
     end
     movies
