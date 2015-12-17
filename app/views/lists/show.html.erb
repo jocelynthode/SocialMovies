@@ -9,20 +9,23 @@
   </thead>
   <tbody>
     <% if !@list.movielists.empty? %>
-      <tr>
       <% @list.movielists.each do |movielist| %>
-        <!-- TODO:  - give possibility to add the movie to another list
-        -->
-        <td><%= movielist.movie.retrieve!.title %></td>
-        <td><%= movielist.movie.retrieve!.release_date %></td>
-        <td><%= link_to fa_icon('eye'),
-    movielist.movie, :class => 'btn btn-xs btn-default' %>
-            <% if @list.user == current_user %>
-              <%= link_to fa_icon('trash'),
-    movielist, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-xs btn-danger' %></td>
-            <% end %>
+        <tr>
+          <!-- TODO:  - give possibility to add the movie to another list
+          -->
+          <td><%= movielist.movie.retrieve!.title %></td>
+          <td><%= movielist.movie.retrieve!.release_date %></td>
+          <td><%= link_to fa_icon('eye'),
+                          movielist.movie, :class => 'btn btn-xs btn-default' %>
+              <% if @list.user == current_user %>
+                <%= link_to fa_icon('trash'),
+                            movielist, method: :delete,
+                            data: { confirm: 'Are you sure?' },
+                            :class => 'btn btn-xs btn-danger' %>
+              <% end %>
+          </td>
+        </tr>
       <% end %>
-    </tr>
     <% else %>
       <tr>
         <td colspan="3">No movie in this list.</td>
