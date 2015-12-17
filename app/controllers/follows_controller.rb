@@ -10,7 +10,7 @@ class FollowsController < ApplicationController
 
   def destroy
     @list = List.find(params[:list]) # todo might be good to secure this
-    current_user.stop_following(params[:list])
-    redirect_to :back # todo remove that and do something better
+    current_user.stop_following(@list)
+    redirect_to :back, status: 303 # todo remove that and do something better
   end
 end
