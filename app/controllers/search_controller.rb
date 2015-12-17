@@ -28,7 +28,7 @@ class SearchController < ApplicationController
     movies = search_query([], %[
       FILTER regex(?title, '^.*#{query_param(true)}', 'i')
     ])
-    @groups = {nil: movies} unless movies.empty?
+    @groups = {nil => movies} unless movies.empty?
     render 'results', locals: {title: "Movies with title containing '#{query_param}'"}
   end
 
@@ -40,7 +40,7 @@ class SearchController < ApplicationController
     movies = search_query([], %[
       FILTER regex(?releaseDate, '^#{query_param(true)}')
     ])
-    @groups = {nil: movies} unless movies.empty?
+    @groups = {nil => movies} unless movies.empty?
     render 'results', locals: {title: "Movies released in #{query_param}"}
   end
 
