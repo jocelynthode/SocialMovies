@@ -176,7 +176,15 @@ In our project we make use of such a RDF graph to search for movies using differ
 In this chapter we will look at different parts of our project that think are interesting.
 
 \subsection{Database and Models}
-The database in our project is mixed. We use models and SQLite to store the different lists, and to store the RDF movie ids as well as to store users. To get all the actual movie information we query the LinkedMDB using SPARQL queries. We also get the movie poster and plot from IMDB using the OMDB API.
+The database in our project is mixed. We use models and SQLite to store the different lists, and to store the RDF movie ids as well as to store users. To get all the actual movie information we query the LinkedMDB using SPARQL queries. We also get the movie poster and plot from IMDB using the OMDB API (see Figure \ref{movie_info}).
+
+\begin{figure}[h]
+\begin{center}
+\fbox{\includegraphics[scale=0.4]{movie_info.png}}
+\end{center}
+\caption{\textbf{Movie information}}
+\label{movie_info}
+\end{figure}
 
 We have to store the movie IDs in a model, because we need to somehow retain which movie a user liked so that we can give him recommendations.
 
@@ -189,7 +197,15 @@ To ensure that, we used a gem called \textit{Devise} that manages authentication
 
 \subsection{Movies}
 \subsection{Recommendations}
-We wanted to be able to provide movies recommendations to a user based on what they liked. This can get pretty complicated as you have to create graphs and use data-mining techniques to emerge a relation graph between users.
+We wanted to be able to provide movies recommendations to a user based on what they liked (see Figure \ref{recommendation}). This can get pretty complicated as you have to create graphs and use data-mining techniques to emerge a relation graph between users.
+
+\begin{figure}[h]
+\begin{center}
+\fbox{\includegraphics[scale=0.4]{recommendation.png}}
+\end{center}
+\caption{\textbf{Movie recommendations}}
+\label{recommendation}
+\end{figure}
 
 \subsubsection{Recommendable}
 Fortunately a gem called \textit{Recommendable} exists. It takes care of all the relationships and just gives you which items a user might like based on what they have liked previously.
@@ -201,9 +217,25 @@ The gem uses Redis and Sidekiq in the backend. Sidekiq is a gem that lets you ea
 Redis is used to store the relationships between users for the recommendation part. Sidekiq is used to update the recommendations for each users. Obviously this task has to be done in the background, otherwise the application would become really slow.
 
 \subsubsection{Lists}
-In our project we have implemented lists for a user to save movies they want to watch later, movies they have as favorites etc.
+In our project we have implemented lists (see Figure \ref{mylists}) for a user to save movies they want to watch later, movies they have as favorites etc.
 
-Users can add movies to the list they want and remove them at any time. The favorite list is also used to recommend movies. Users can also create their own lists, follow the lists of other users, see the lists of their friends, etc.
+\begin{figure}[h]
+\begin{center}
+\fbox{\includegraphics[scale=0.4]{mylists.png}}
+\end{center}
+\caption{\textbf{User's lists}}
+\label{mylists}
+\end{figure}
+
+Users can add movies to the list they want and remove them at any time. The favorite list is also used to recommend movies. Users can also create their own lists, follow the lists of other users, see the lists of their friends, etc (see Figure \ref{myfriends_follow}).
+
+\begin{figure}[h]
+\begin{center}
+\fbox{\includegraphics[scale=0.4]{myfriends_follow.png}}
+\end{center}
+\caption{\textbf{Follow lists and friends}}
+\label{myfriends_follow}
+\end{figure}
 
 \section{Guides}\label{install}
 
