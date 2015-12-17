@@ -1,7 +1,7 @@
 class MoviesController < ApplicationController
-  respond_to :js, only: [:toggle_recommendation, :toggle_bookmark, :hide]
+  respond_to :js, only: [:recommend, :bookmark, :hide]
   skip_before_action :authenticate_user!, only: [:index, :show, :poster_img]
-  before_action :set_movie, only: [:show, :edit, :update, :destroy, :toggle_bookmark, :toggle_recommendation, :hide]
+  before_action :set_movie, only: [:show, :edit, :update, :destroy, :bookmark, :recommend, :hide]
 
   # GET /movies
   # GET /movies.json
