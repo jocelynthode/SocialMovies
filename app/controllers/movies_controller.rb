@@ -7,12 +7,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @movies = Movie.all.each(&:retrieve!)
-    if user_signed_in?
-      @lists = current_user.lists.order("name ASC")
-      @movies - current_user.hiding
-    else
-      @lists = ''
-    end
+    @movies = @movies - current_user.hiding if user_signed_in?
   end
 
   # GET /movies/1
@@ -24,12 +19,6 @@ class MoviesController < ApplicationController
       @poster_url = data[:Poster] unless data[:Poster] == 'N/A'
     else
       flash[:warning] = 'Cannot retrieve details from IMDB'
-    end
-
-    if user_signed_in?
-      @lists = current_user.lists.order("name ASC")
-    else
-      @lists = ''
     end
   end
 
