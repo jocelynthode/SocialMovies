@@ -98,6 +98,8 @@ We used the following environments to develop our application :
 \item \textbf{jQuery} is a fast, small, and feature-­rich JavaScript library.
 \item \textbf{Bootstrap 3} is the CSS framework used to design the web pages. It lets us have a sleek design with minimal efforts.
 \item \textbf{LinkedMDB} is the RDF database we chose to use to get informations about movies.
+\item \textbf{OMDB} is a RESTful API to access data from the Internet Movie Databse.
+\item \textbf{Redis} is a very fast in-memory key-value store with optional persistence.
 \end{itemize}
 
 \begin{figure}[h]
@@ -121,10 +123,10 @@ The model does the application's business logic. It has to handle data (storing 
 
 Active Record also have great tools that lets you handle the validation and the relationships between tables directly in the model. These validation and foreign keys are only present in the model layer this way and you will not have a foreign key present in the database.
 
-In our project, the model layer was a bit more complicated to implement as we were using an external database namely the RDF database exposed by LinkedMDB. We had to retrieve information directly from LinkedMDB using the gem RDF.rb and link the movie to our Active Record movie object so we could take advantage of different possibilites given by Active Record. This was especially useful for all the recommendation part.
+In our project, the model layer was a bit more complicated to implement as we were using an external database namely the RDF database exposed by LinkedMDB. We had to retrieve information directly from LinkedMDB using the gem RDF.rb and link the movie to our Active Record movie object so we could take advantage of different possibilities given by Active Record. This was especially useful for all the recommendation part.
 
 \subsubsection{View}
-The view should only serve to encapsulate the presentation logic. We shouldn't do any application logic (Controller) or information retrieval through the database (Model). In our project, the view only display the movie information given by the controller.
+The view should only serve to encapsulate the presentation logic. We shouldn't do any application logic (Controller) or information retrieval through the database (Model). In our project, the view only displays the movie information given by the controller.
 
 \subsubsection{Controller}
 The controller is the link between the view and the model. It will retrieve information from the model, apply some transformations to it and pass it to the view.
@@ -137,41 +139,43 @@ RDF stands for Resource Description Framework and is a W3C specification. It is 
 \item The object
 \end{itemize}
 
-RDF also links resources in a way that is easy for a computer to interpret as well asresources for a human. For example you can use the 'foaf' notation to indicate that two persons are linked. This notation is also transitive.
+RDF also links resources in a way that is easy for a computer to interpret as well as for a human. For example you can describe your \textit{person} resource with the class \texttt{Person} of the \texttt{foaf} ontology, and then a third-party service using the same ontology could understand that your resource represents a person, that its \texttt{lastName} property is the actual last name of the person, etc.
 
-In our project we make use of such a RDF graph to search for movies using different criterias like the year or the actor.
+In our project we make use of such a RDF graph to search for movies using different criterias like the release year or the actors.
 
 \section{SocialMovies Application}
 
 In this chapter we will look at different parts of our project that think are interesting.
 
 \subsection{Database and Models}
-The database in our project is mixed. We use models and SQLite to store the different lists, and to store the RDF movie ids as well as to store users. To get all the actual movie informations we query the LinkedMDB using SPARQL queries.
+The database in our project is mixed. We use models and SQLite to store the different lists, and to store the RDF movie ids as well as to store users. To get all the actual movie information we query the LinkedMDB using SPARQL queries. We also get the movie poster and plot from IMDB using the OMDB API.
 
-We have to store the movie ids in a model, because we need to somehow retain which movie a user liked so that can give him recommendations.
+We have to store the movie IDs in a model, because we need to somehow retain which movie a user liked so that can give him recommendations.
+
+Gathering data from LinkedMDB and OMDB for each request can be costly whereas most of the retrieved never changes, so we cache every request using Redis.
 
 \subsection{User Authentication}
 The user authentication is a critical part of a web application. It is essential to secure this part to the best of your capabilities.
 
-To ensure that, we used a gem called Devise that manages authentication for us. This gem takes care of registration and signing in. It also stores the passwords in the database using strong encryption.
+To ensure that, we used a gem called \textit{Devise} that manages authentication for us. This gem takes care of registration and signing in. It also stores the passwords in the database using strong encryption.
 
 \subsection{Movies}
 \subsection{Recommendations}
-We wanted to be able to provide movies recommendations to a user based on what they liked. This can get pretty complicated as you have to create graphs and use data-mining techniques to emerge a relation graph between user.
+We wanted to be able to provide movies recommendations to a user based on what they liked. This can get pretty complicated as you have to create graphs and use data-mining techniques to emerge a relation graph between users.
 
 \subsubsection{Recommendable}
-Fortunately a gem called 'Recommendable' exists. It takes care of all the relations and just give you which item a user might like based on what they have liked previously.
+Fortunately a gem called \textit{Recommendable} exists. It takes care of all the relationships and just gives you which items a user might like based on what they have liked previously.
 
 In SocialMovies, you can either like, dislike or hide a movie. Based on these three actions, recommendable will generate a list of the recommended movies for you to see.
 
-We had to use Redis and Sidekiq. Redis is a data-structure server working in-memory that is extremly efficient. Sidekiq is a gem that makes queues for background processes automated.
+The gem uses Redis and Sidekiq in the backend. Sidekiq is a gem that lets you easily schedule background jobs.
 
-Redis was used to store the relationships between users for the recommendation part. Sidekiq was used to update the recommendations for each users. Obviously this task has to be done in the background otherwise the application would become really slow.
+Redis is used to store the relationships between users for the recommendation part. Sidekiq is used to update the recommendations for each users. Obviously this task has to be done in the background, otherwise the application would become really slow.
 
 \subsubsection{Lists}
 In our project we have implemented lists for a user to save movies they want to watch later, movies they have as favorites etc.
 
-Users can add movies to the list they want and remove them at any time. The favorite list is also used to recommend movies.
+Users can add movies to the list they want and remove them at any time. The favorite list is also used to recommend movies. Users can also create their own lists, follow the lists of other users, see the lists of their friends, etc.
 
 \section{Guides}
 
@@ -179,7 +183,7 @@ Users can add movies to the list they want and remove them at any time. The favo
 In order to run the web application you need to :
 \begin{enumerate}
 \item Install SQLite 3
-\item Install Ruby >= 1.9.3
+\item Install Ruby $>=$ 2.2
 \item Install Rails 4.2.4
 \item Install Redis
 \item Install the gem Bundler
@@ -205,20 +209,20 @@ bin/rails server
 \end{lstlisting}
 \end{enumerate}
 \subsection{User Guide}
-To start using the app, you must register using the Sign Up button. After that you can start browsing and search for different movies. The more movies you like/dislike and add to your lists, the more precise the recommendations will get.
+To start using the app, you must register using the \textit{Sign Up} button. After that you can start browsing and searching for different movies. The more movies you like/dislike and add to your lists, the more precise the recommendations will get.
 
 %TODO
 
 \section{Conclusion}
-To conclude this report, we have implemented a web application that lets a user search for movies, get recommendations and use lists to save movies to watch later. We used Ruby on Rails + Bootstrap as the framework and RDF databases to retrieve movie informations.
+To conclude this report, we have implemented a web application that lets a user search for movies, get recommendations and use lists to save movies to watch later. We used Ruby on Rails + Bootstrap as the framework and RDF databases to retrieve movie information.
 
 We were already familiar with Ruby on Rails before this project, but had never used RDF. RDF has some really good ideas and is really generic which makes it easy to use in multiple completely different applications. 
 
-We still had problems with it, mainly due to the fact that most open link RDF databases are either out of date (LinkedMDB hasn't been updated for more than three years) or are missing informations. To palliate to these problems we had to rely on third party apis that aren't using RDF, such as OMDB.
+We still had problems with it, mainly due to the fact that most open link RDF databases are either out of date (LinkedMDB hasn't been updated for more than three years) or are missing information. To palliate to these problems we had to rely on third party APIs that aren't using RDF, such as OMDB.
 
-Using SPARQL for the first time was also challenging, becuause it wasn't exactly like SQL which we are used to.
+Using SPARQL for the first time was also challenging, because it wasn't exactly like SQL which we are used to.
 
-In the end we enjoyed working with Ruby on Rails and RDF and we wish there would be more services providing a SPARQL end-point and using RDF to organize their data.
+In the end we enjoyed working with Ruby on Rails and RDF and we wish there would be more services providing a SPARQL end-point and using RDF to structure their data.
 
 
 
