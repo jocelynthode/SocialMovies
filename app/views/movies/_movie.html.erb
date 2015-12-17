@@ -5,7 +5,7 @@
 <% else %>
     <% liked_state = nil %>
 <% end %>
-<%= content_tag :div, class: 'col-lg-3 col-md-3 movie-card',
+<%= content_tag :div, class: 'col-md-3 movie-card',
                 data: {id: movie.id, state: liked_state} do %>
       <div class="panel panel-default">
         <div class="panel-heading">

@@ -3,7 +3,10 @@
 <h1>Listing Movies</h1>
 
 <div class="row">
-  <%= render partial: 'movies/movie', collection: user_signed_in? ? (@movies - current_user.hiding) : @movies %>
+  <% @movies.in_groups_of(4, false).each do |movies| %>
+    <%= render partial: 'movies/movie', collection: movies %>
+    <div class="clearfix visible-md-block visible-lg-block"></div>
+  <% end %>
 </div>
 
 <br>

@@ -9,6 +9,7 @@ class MoviesController < ApplicationController
     @movies = Movie.all.each(&:retrieve!)
     if user_signed_in?
       @lists = current_user.lists.order("name ASC")
+      @movies - current_user.hiding
     else
       @lists = ''
     end
