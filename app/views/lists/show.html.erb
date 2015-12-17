@@ -16,8 +16,11 @@
         <td><%= movielist.movie.retrieve!.title %></td>
         <td><%= movielist.movie.retrieve!.release_date %></td>
         <td><%= link_to fa_icon('eye'),
-    movielist.movie, :class => 'btn btn-xs btn-default' %> <%= link_to fa_icon('trash'),
+    movielist.movie, :class => 'btn btn-xs btn-default' %>
+            <% if @list.user == current_user %>
+              <%= link_to fa_icon('trash'),
     movielist, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-xs btn-danger' %></td>
+            <% end %>
       <% end %>
     </tr>
     <% else %>

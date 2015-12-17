@@ -5,8 +5,10 @@ class UsersController < ApplicationController
   def index
     if user_signed_in?
       @users = User.all - [current_user]
+      @friends = current_user.following_by_type('User')
     else
       @users = ''
+      @friends = ''
     end
   end
 
