@@ -1,3 +1,5 @@
+<%= link_to 'Back', :back, class: 'btn btn-default pull-right', role: 'button' %>
+
 <p>
   <div style="float: left; margin-right: 25px">
     <%= image_tag @poster_url, alt: '' %>
@@ -6,9 +8,9 @@
   <%= @movie.title %><br>
   <strong>Released in: </strong>
   <%= @movie.release_date %><br>
-  <strong>IMDB</strong>
+  <strong>IMDB: </strong>
   <%= @movie.imdb %><br>
-  <strong>Plot</strong>
+  <strong>Plot: </strong>
   <%= @plot %><br>
   <strong>Actors:</strong>
   <ul>
@@ -37,8 +39,20 @@
   </ul>
 </div>
 
-<%= link_to 'Edit', edit_movie_path(@movie) %> |
-<%= link_to 'Back', movies_path %>
-<%= link_to 'Recommend', recommend_movie_path, method: :put %>
-<%= link_to 'Bookmark', bookmark_movie_path, method: :put %>
-<%= link_to 'Hide', hide_movie_path, method: :put %>
+
+<% if user_signed_in? %>
+  <%# Quick hack to reuse the buttons of the movie partial %>
+  <%= content_tag :span, class: 'movie-card', data: {id: @movie.id, state: @recommend_state} do %>
+    <div class="btn-group">
+      <%= link_to fa_icon('thumbs-o-up lg fw'),
+                  recommend_movie_path(@movie, thumbs_up: true), remote: true, method: :put,
+                  class: 'btn btn-default like-button', role: 'button' %>
+      <%= link_to fa_icon('thumbs-o-down lg fw'),
+                  recommend_movie_path(@movie, thumbs_up: false), remote: true, method: :put,
+                  class: 'btn btn-default dislike-button', role: 'button' %>
+    </div>
+    <%= link_to fa_icon("#{@star_class} lg fw"),
+                bookmark_movie_path(@movie), remote: true, method: :put,
+                class: 'btn btn-default bookmark-button', role: 'button' %>
+  <% end %>
+<% end %>

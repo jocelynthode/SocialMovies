@@ -1,7 +1,7 @@
 class MoviesController < ApplicationController
   respond_to :js, only: [:recommend, :bookmark, :hide]
   skip_before_action :authenticate_user!, only: [:index, :show, :poster_img]
-  before_action :set_movie, only: [:show, :edit, :update, :destroy, :bookmark, :recommend, :hide]
+  before_action :set_movie, only: [:show, :bookmark, :recommend, :hide]
 
   # GET /movies
   # GET /movies.json
@@ -20,50 +20,14 @@ class MoviesController < ApplicationController
     else
       flash[:warning] = 'Cannot retrieve details from IMDB'
     end
-  end
-
-  # GET /movies/new
-  def new
-    @movie = Movie.new
-  end
-
-  # GET /movies/1/edit
-  def edit
-  end
-
-  # POST /movies
-  # POST /movies.json
-  def create
-    # @movie = Movie.new(movie_params)
-    @movie = Movie.find_or_create_by(:id => movie_params_mid[:mid])
-
-    respond_to do |format|
-      if @movie.save
-        format.html { redirect_to @movie, notice: 'Movie was successfully created.' }
-      else
-        format.html { render :new }
+    if user_signed_in?
+      @recommend_state = nil
+      if current_user.likes?(@movie)
+        @recommend_state = 'liked'
+      elsif current_user.dislikes?(@movie)
+        @recommend_state = 'disliked'
       end
-    end
-  end
-
-  # PATCH/PUT /movies/1
-  # PATCH/PUT /movies/1.json
-  def update
-    respond_to do |format|
-      if @movie.update(movie_params)
-        format.html { redirect_to @movie, notice: 'Movie was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
-    end
-  end
-
-  # DELETE /movies/1
-  # DELETE /movies/1.json
-  def destroy
-    @movie.destroy
-    respond_to do |format|
-      format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
+      @star_class = current_user.bookmarks?(@movie) ? 'star' : 'star-o'
     end
   end
 
@@ -76,8 +40,6 @@ class MoviesController < ApplicationController
       head :not_found
     end
   end
-
-
 
   def recommend
     @liked_state = nil
