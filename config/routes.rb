@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :movies
   resources :movielists
   devise_for :users
+  resources :users
+  resources :follows
 
   devise_scope :user do
     get 'sign_in', to: 'devise/sessions#new'
@@ -12,9 +14,9 @@ Rails.application.routes.draw do
 
   resources :movies do
     member do
-      put 'recommend', to: 'movies#toggle_recommendation'
-      put 'bookmark', to: 'movies#toggle_bookmark'
-      put 'hide', to: 'movies#hide'
+      put :toggle_recommendation
+      put :toggle_bookmark
+      put :hide
     end
   end
 

@@ -6,8 +6,10 @@ class ListsController < ApplicationController
   def index
     if user_signed_in?
       @lists = current_user.lists.order("name ASC")
+      @friends_lists = current_user.following_by_type('List')
     else
       @lists = ''
+      @friends_lists = ''
     end
   end
 

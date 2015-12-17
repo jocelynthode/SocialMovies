@@ -1,0 +1,8 @@
+if (<%= escape_javascript(@type) == 'List' %>) {
+  $("#list-follow-<%= @foaf.id %>").addClass("hidden");
+  $("#list-unfollow-<%= @foaf.id %>").removeClass("hidden");
+}
+if (<%= escape_javascript(@type) == 'User' %>) {
+  $("#user-follow").addClass("hidden");
+  $("#user-unfollow").removeClass("hidden");
+}

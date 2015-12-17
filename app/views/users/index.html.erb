@@ -1,0 +1,51 @@
+<h1>People you are following</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if !@friends.empty? %>
+      <% @friends.each do |friend| %>
+        <tr>
+          <td><%= friend.email %></td>
+          <td><%= link_to fa_icon('eye'), friend, class: 'btn btn-xs btn-default', role: 'button' %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2">No user available.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h1>Find more people to follow</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if !@users.empty? %>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= link_to fa_icon('eye'), user, class: 'btn btn-xs btn-default', role: 'button' %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2">No user available.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
