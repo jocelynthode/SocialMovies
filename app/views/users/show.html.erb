@@ -1,0 +1,29 @@
+<!-- User profile -->
+<h1><%= @user.email %></h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Lists</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if !@user.lists.empty? %>
+      <tr>
+      <% @user.lists.each do |list| %>
+        <td><%= list.name %></td>
+        <td><%= link_to 'Follow',
+    @user, method: :post, remote: true, :class => 'btn btn-xs btn-success' %> <%= link_to 'Unfollow',
+    @user, method: :post, remote: true, :class => 'btn btn-xs btn-warning' %>
+  </td>
+      <% end %>
+    </tr>
+    <% else %>
+      <tr>
+        <td colspan="3">No movie in this list.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back to users', users_path, :class => 'btn btn-default' %>
