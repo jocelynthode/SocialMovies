@@ -15,3 +15,29 @@
     color: $brand-danger;
   }
 }
+
+.movie-card {
+  a:hover {
+    text-decoration: none;
+  }
+
+  .poster-small {
+    height: 200px;
+  }
+
+  .btn-list-add {
+    margin-top: 10px;
+  }
+
+  .btn-movie-hide {
+    margin-right: 10px;
+  }
+
+  .bookmark-button {
+    color: $brand-warning;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+}

@@ -7,54 +7,59 @@
 <% end %>
 <%= content_tag :div, class: 'col-md-3 movie-card',
                 data: {id: movie.id, state: liked_state} do %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="row">
-            <%= link_to fa_icon('times lg fw'),
-                        hide_movie_path(movie), remote: true, method: :put,
-                        class: 'pull-right', data: {id: movie.id} %>
-          </div>
-          <%= link_to movie_path(movie) do %>
-          <%= image_tag poster_movie_path(movie.imdb), style: 'max-height: 150px;' %>
-          <div class="row text-center">
-            <h4><%= movie.title %> (<%= movie.release_date %>)</h4>
-          </div>
-          <% end %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <%= link_to fa_icon('times lg fw'),
+                      hide_movie_path(movie), remote: true, method: :put,
+                      class: 'pull-right btn-movie-hide', data: {id: movie.id} %>
         </div>
-  <div class="panel-footer text-center">
-    <%= link_to fa_icon('thumbs-o-up lg fw'),
-                recommend_movie_path(movie, thumbs_up: true), remote: true, method: :put,
-                class: 'btn btn-default like-button', role: 'button' %>
-    <%= link_to fa_icon('thumbs-o-down lg fw'),
-                recommend_movie_path(movie, thumbs_up: false), remote: true, method: :put,
-                class: 'btn btn-default dislike-button', role: 'button' %>
-    <% if user_signed_in? && current_user.bookmarks?(movie) %>
-        <% star_class = 'star lg fw' %>
-    <% else %>
-        <% star_class = 'star-o lg fw' %>
-    <% end %>
-    <%= link_to fa_icon(star_class),
-                bookmark_movie_path(movie), remote: true, method: :put,
-                class: 'btn btn-default bookmark-button', style: 'color:gold;', role: 'button' %>
-    <!-- Single button -->
-    <div class="btn-group">
-      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> Add to list <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <% if !@lists.empty? %>
-          <% @lists.each do |list| %>
-            <li><%= link_to list.name, movielists_path(:list_id => list.id, :movie_id => movie.id), method: :post %></li>
-          <% end %>
-        <% else %>
-          <li class="disabled"><a href="#">No lists available.</a></li>
-          <% if user_signed_in? %>
-            <li role="separator" class="divider"></li>
-            <li><%= link_to 'Create a new list', lists_path() %></li>
-          <% end %>
+        <%= link_to movie_path(movie) do %>
+            <%= image_tag poster_movie_path(movie.imdb), class:'poster-small'%>
+            <div class="text-center">
+              <h4><%= movie.title %> (<%= movie.release_date %>)</h4>
+            </div>
         <% end %>
-      </ul>
+      </div>
+      <div class="panel-footer text-center">
+        <div class="btn-group">
+          <%= link_to fa_icon('thumbs-o-up lg fw'),
+                      recommend_movie_path(movie, thumbs_up: true), remote: true, method: :put,
+                      class: 'btn btn-default like-button', role: 'button' %>
+          <%= link_to fa_icon('thumbs-o-down lg fw'),
+                      recommend_movie_path(movie, thumbs_up: false), remote: true, method: :put,
+                      class: 'btn btn-default dislike-button', role: 'button' %>
+        </div>
+        <% if user_signed_in? && current_user.bookmarks?(movie) %>
+            <% star_class = 'star lg fw' %>
+        <% else %>
+            <% star_class = 'star-o lg fw' %>
+        <% end %>
+        <%= link_to fa_icon(star_class),
+                    bookmark_movie_path(movie), remote: true, method: :put,
+                    class: 'btn btn-default bookmark-button', role: 'button' %>
+        <br>
+        <!-- Single button -->
+        <div class="btn-group btn-list-add">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> Add to list
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <% if !@lists.empty? %>
+                <% @lists.each do |list| %>
+                    <li><%= link_to list.name, movielists_path(:list_id => list.id, :movie_id => movie.id),
+                                    method: :post %></li>
+                <% end %>
+            <% else %>
+                <li class="disabled"><a href="#">No lists available.</a></li>
+                <% if user_signed_in? %>
+                    <li role="separator" class="divider"></li>
+                    <li><%= link_to 'Create a new list', lists_path() %></li>
+                <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-  </div>
 <% end %>
