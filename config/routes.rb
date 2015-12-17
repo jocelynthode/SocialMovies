@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :lists
   resources :movies
   resources :movielists
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'registrations'}
   resources :users
   resources :follows
 
