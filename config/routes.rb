@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :movies
   resources :movielists
   devise_for :users
+  resources :users
 
   devise_scope :user do
     get 'sign_in', to: 'devise/sessions#new'
