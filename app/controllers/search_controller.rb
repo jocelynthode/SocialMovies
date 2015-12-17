@@ -38,7 +38,7 @@ class SearchController < ApplicationController
     #movie_year = '2014'
     # @movie_year = params[:movie_year] # in order to be available in the view
     movies = search_query([], %[
-      FILTER regex(?releaseDate, '^#{query_param(true)}')
+      FILTER regex(?release_date, '^#{query_param(true)}')
     ])
     @groups = {nil => movies} unless movies.empty?
     render 'results', locals: {title: "Movies released in #{query_param}"}
