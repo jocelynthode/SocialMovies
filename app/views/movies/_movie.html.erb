@@ -48,6 +48,7 @@
           <ul class="dropdown-menu">
             <% unless current_user_lists.empty? %>
                 <% current_user_lists.each do |list| %>
+                    <% next if list.name == 'Bookmarks' %>
                     <li><%= link_to list.name, movielists_path(:list_id => list.id, :movie_id => movie.id), method: :post %></li>
                 <% end %>
             <% else %>

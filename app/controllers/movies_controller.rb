@@ -59,10 +59,13 @@ class MoviesController < ApplicationController
   end
 
   def bookmark
+    list = List.find_by_name('Bookmarks')
     if current_user.bookmarks?(@movie)
       current_user.unbookmark(@movie)
+      list.movies.delete(@movie)
     else
       current_user.bookmark(@movie)
+      list.movies << (@movie)
     end
   end
 

@@ -4,6 +4,9 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   def create_default
-    List.create({name: 'Watch It Later', user_id: @user.id}) if resource.persisted?
+    if resource.persisted?
+      List.create({name: 'Watch It Later', user_id: @user.id})
+      List.new({name: 'Bookmarks', user_id: @user.id})
+    end
   end
 end

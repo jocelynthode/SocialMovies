@@ -59,14 +59,21 @@ class ListsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_list
-      @list = List.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def list_params
-      params.require(:list).permit(:name, :movie_id, :user_id)
-    end
+  private
+
+  def get_bookmarks
+    list = List.find_by_name('Bookmarks')
+    list.movies = current_user.bookmarked_movies
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_list
+    @list = List.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def list_params
+    params.require(:list).permit(:name, :user_id)
+  end
 end
