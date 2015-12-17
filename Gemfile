@@ -54,7 +54,7 @@ gem 'sidekiq-middleware'
 gem 'recommendable'
 
 # Use acts_as_follower to allow any model to follow any other model
-gem "acts_as_follower"
+gem 'acts_as_follower', '~> 0.2.1'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

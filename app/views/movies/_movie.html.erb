@@ -23,10 +23,10 @@
         </div>
   <div class="panel-footer text-center">
     <%= link_to fa_icon('thumbs-o-up lg fw'),
-                recommend_movie_path(movie, thumbs_up: true), remote: true, method: :put,
+                toggle_recommendation_movie_path(movie, thumbs_up: true), remote: true, method: :put,
                 class: 'btn btn-default like-button', role: 'button' %>
     <%= link_to fa_icon('thumbs-o-down lg fw'),
-                recommend_movie_path(movie, thumbs_up: false), remote: true, method: :put,
+                toggle_recommendation_movie_path(movie, thumbs_up: false), remote: true, method: :put,
                 class: 'btn btn-default dislike-button', role: 'button' %>
     <% if user_signed_in? && current_user.bookmarks?(movie) %>
         <% star_class = 'star lg fw' %>
@@ -34,7 +34,7 @@
         <% star_class = 'star-o lg fw' %>
     <% end %>
     <%= link_to fa_icon(star_class),
-                bookmark_movie_path(movie), remote: true, method: :put,
+                toggle_bookmark_movie_path(movie), remote: true, method: :put,
                 class: 'btn btn-default bookmark-button', style: 'color:gold;', role: 'button' %>
     <!-- Single button -->
     <div class="btn-group">

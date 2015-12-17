@@ -317,7 +317,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_follower
+  acts_as_follower (~> 0.2.1)
   bootstrap-sass (~> 3.3.5)
   coffee-rails (~> 4.1.0)
   devise
@@ -346,4 +346,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

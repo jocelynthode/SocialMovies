@@ -12,10 +12,10 @@
       <tr>
       <% @user.lists.each do |list| %>
         <td><%= list.name %></td>
-        <td><%= link_to 'Follow',
-    @user, method: :post, remote: true, :class => 'btn btn-xs btn-success' %> <%= link_to 'Unfollow',
-    @user, method: :post, remote: true, :class => 'btn btn-xs btn-warning' %>
-  </td>
+        <td>
+          <%= link_to 'Follow', follows_path(list: list), method: :post, remote: true, :class => 'btn btn-xs btn-success' %>
+          <%= link_to 'Unfollow', follow_path(list: list), method: :delete, remote: true, :class => 'btn btn-xs btn-warning' %>
+        </td>
       <% end %>
     </tr>
     <% else %>
