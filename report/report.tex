@@ -72,45 +72,73 @@
 
 \section{Introduction}
 
-We used Ruby on Rails and RDF to create this project. The resulting web application lets you search movies, favorite and share them with your friends as well as getting personalized recommendations based on what you liked. You can also add movies to different lists such as 'Watch it later' or 'watched'.
+We used Ruby on Rails and RDF to create this project. The resulting web application lets you search movies, favorite and share them with your friends as well as getting personalized recommendations based on what you liked. You can also add movies to different lists such as 'Watch it later' or 'Watched'.
 
-In the next chapter, we will present our development environment as well as the different technologies used for the project. In chapter 3, we'll present the Ruby on Rails framework and explain how the MVC architecture works.
+In the two next chapter, we will present our development environment as well as the different technologies used for the project. In chapter \ref{framework}, we will present the Ruby on Rails framework and explain how the MVC architecture works.
 
-In chapter 4, we will present which RDF database we used and why RDF is useful.
+In chapter \ref{rdf}, we will present which RDF database we used and why RDF is useful.
 
-In chapter 5, we will talk about our application, how it works and some interesting features.
+In chapter \ref{app}, we will talk about our application, how it works and some interesting features.
 
-Chapter 6, will be about the installation and user guides. Finally we will conclude the report and reflect on what was achieved  for this mini-project.
+Chapter \ref{install} will be about the installation and user guides. Finally we will conclude the report and reflect on what was achieved for this mini-project.
 
-\section{Development Platform and Environment}
+\section{Development Platform}\label{dev_plat}
+
+The WEBrick web server coming with Ruby makes the application reachable at \url{http://localhost:3000}.
+
+The development of the application was done with:
+\begin{itemize}
+\item \textbf{Operating Systems}: Mac OS X 10.11.1, Archlinux
+\item \textbf{Web Browsers}: Safari 9.0.1, Chromium 47.0, Firefox 42.0
+\end{itemize}
+
+
+
+\section{Development Environment}\label{dev_plat}
 
 We used the following environments to develop our application :
 
 \begin{itemize}
-\item \textbf{Operating Systems}: Mac OS X 10.11, Archlinux
-\item \textbf{Web Browsers}: Safari 9.0.1, Chromium 47.0, Firefox 42.0
 \item \textbf{Ruby 2.2.3} is the programming language used by Rails
 \item \textbf{Rails 4.2.4} is an MVC framework written in Ruby. It lets you develop web applications using the DRY (Don't Repeat Yourself) philosophy and the CRUD (Create Read Update Delete) system.
 
-\item \textbf{SQLite 3.9} is a really simple RDMS that is ACID-compliant. We chose SQLite due to the fact it's contained in a single file and is really light
-\item \textbf{HTML 5} 
-\item \textbf{CSS 3}
-\item \textbf{jQuery} is a fast, small, and feature-­rich JavaScript library.
-\item \textbf{Bootstrap 3} is the CSS framework used to design the web pages. It lets us have a sleek design with minimal efforts.
-\item \textbf{LinkedMDB} is the RDF database we chose to use to get informations about movies.
+\item \textbf{SQLite 3.9} is a really simple RDMS that is ACID-compliant. We chose SQLite due to the fact it is contained in a single file and is really light.
+\item \textbf{LinkedMDB} is the RDF database we chose to use to retrieve information about movies.
 \item \textbf{OMDB} is a RESTful API to access data from the Internet Movie Databse.
 \item \textbf{Redis} is a very fast in-memory key-value store with optional persistence.
+\item \textbf{Git} via Github service for revision control.
+\item \textbf{Atom} is a simple textditor with syntax highlighting.
 \end{itemize}
 
-\begin{figure}[h]
-\begin{center}
-\fbox{\includegraphics[scale=0.7]{splitdelay.png}}
-\end{center}
-\caption{\textbf{Delay component}}
-\label{splitdelay}
-\end{figure}
+% \section{Development Platform and Environment}\label{dev_plat_env}
 
-\section{Framework and MVC Pattern}
+% We used the following environments to develop our application :
+
+% \begin{itemize}
+% \item \textbf{Operating Systems}: Mac OS X 10.11.1, Archlinux
+% \item \textbf{Web Browsers}: Safari 9.0.1, Chromium 47.0, Firefox 42.0
+% \item \textbf{Ruby 2.2.3} is the programming language used by Rails
+% \item \textbf{Rails 4.2.4} is an MVC framework written in Ruby. It lets you develop web applications using the DRY (Don't Repeat Yourself) philosophy and the CRUD (Create Read Update Delete) system.
+
+% \item \textbf{SQLite 3.9} is a really simple RDMS that is ACID-compliant. We chose SQLite due to the fact it is contained in a single file and is really light.
+% \item \textbf{HTML 5} 
+% \item \textbf{CSS 3}
+% \item \textbf{jQuery} is a fast, small, and feature-rich JavaScript library.
+% \item \textbf{Bootstrap 3} is the CSS framework used to design the web pages. It lets us have a sleek design with minimal efforts.
+% \item \textbf{LinkedMDB} is the RDF database we chose to use to retrieve information about movies.
+% \item \textbf{OMDB} is a RESTful API to access data from the Internet Movie Databse.
+% \item \textbf{Redis} is a very fast in-memory key-value store with optional persistence.
+% \end{itemize}
+
+% \begin{figure}[h]
+% \begin{center}
+% \fbox{\includegraphics[scale=0.7]{splitdelay.png}}
+% \end{center}
+% \caption{\textbf{Delay component}}
+% \label{splitdelay}
+% \end{figure}
+
+\section{Framework and MVC Pattern}\label{framework}
 \subsection{Ruby on Rails}
 As stated earlier Ruby on Rails is a framework following the MVC pattern using Ruby. It is really simple to use and does a lot of work on the back end to let the developer fully focus on their code without worrying about every details like security or how to link different objects together.
 
@@ -121,17 +149,17 @@ The Model-View-Controller (MVC) separates the view from the applications's logic
 \subsubsection{Model}
 The model does the application's business logic. It has to handle data (storing and retrieving). In Rails the Model is implemented through Active Record which is a class that wraps the database access in a Ruby object for ease of use.
 
-Active Record also have great tools that lets you handle the validation and the relationships between tables directly in the model. These validation and foreign keys are only present in the model layer this way and you will not have a foreign key present in the database.
+Active Record also has great tools that let you handle the validations and the relationships between tables directly in the model. These validations and foreign keys are only present in the model layer this way and you will not have a foreign key present in the database.
 
-In our project, the model layer was a bit more complicated to implement as we were using an external database namely the RDF database exposed by LinkedMDB. We had to retrieve information directly from LinkedMDB using the gem RDF.rb and link the movie to our Active Record movie object so we could take advantage of different possibilities given by Active Record. This was especially useful for all the recommendation part.
+In our project, the model layer was a bit more complicated to implement as we were using an external database namely the RDF database exposed by LinkedMDB. We had to retrieve information directly from LinkedMDB using the gem RDF.rb and sparql, and link the movie to our Active Record movie object so we could take advantage of different possibilities given by Active Record. This was especially useful for all the recommendation part.
 
 \subsubsection{View}
-The view should only serve to encapsulate the presentation logic. We shouldn't do any application logic (Controller) or information retrieval through the database (Model). In our project, the view only displays the movie information given by the controller.
+The view should only serve to encapsulate the presentation logic. We should not do any application logic (Controller) or information retrieval through the database (Model). In our project, the view only displays the movie information given by the controller.
 
 \subsubsection{Controller}
 The controller is the link between the view and the model. It will retrieve information from the model, apply some transformations to it and pass it to the view.
 
-\section{RDF}
+\section{RDF}\label{rdf}
 RDF stands for Resource Description Framework and is a W3C specification. It is a model used to link together web resources. The format to present such data is often N-Triples, meaning the information is separated in three pieces :
 \begin{itemize}
 \item The subject
@@ -143,14 +171,14 @@ RDF also links resources in a way that is easy for a computer to interpret as we
 
 In our project we make use of such a RDF graph to search for movies using different criterias like the release year or the actors.
 
-\section{SocialMovies Application}
+\section{SocialMovies Application}\label{app}
 
 In this chapter we will look at different parts of our project that think are interesting.
 
 \subsection{Database and Models}
 The database in our project is mixed. We use models and SQLite to store the different lists, and to store the RDF movie ids as well as to store users. To get all the actual movie information we query the LinkedMDB using SPARQL queries. We also get the movie poster and plot from IMDB using the OMDB API.
 
-We have to store the movie IDs in a model, because we need to somehow retain which movie a user liked so that can give him recommendations.
+We have to store the movie IDs in a model, because we need to somehow retain which movie a user liked so that we can give him recommendations.
 
 Gathering data from LinkedMDB and OMDB for each request can be costly whereas most of the retrieved never changes, so we cache every request using Redis.
 
@@ -177,7 +205,7 @@ In our project we have implemented lists for a user to save movies they want to 
 
 Users can add movies to the list they want and remove them at any time. The favorite list is also used to recommend movies. Users can also create their own lists, follow the lists of other users, see the lists of their friends, etc.
 
-\section{Guides}
+\section{Guides}\label{install}
 
 \subsection{Installation Guide}
 In order to run the web application you need to :
@@ -218,9 +246,9 @@ To conclude this report, we have implemented a web application that lets a user 
 
 We were already familiar with Ruby on Rails before this project, but had never used RDF. RDF has some really good ideas and is really generic which makes it easy to use in multiple completely different applications. 
 
-We still had problems with it, mainly due to the fact that most open link RDF databases are either out of date (LinkedMDB hasn't been updated for more than three years) or are missing information. To palliate to these problems we had to rely on third party APIs that aren't using RDF, such as OMDB.
+We still had problems with it, mainly due to the fact that most open link RDF databases are either out of date (LinkedMDB has not been updated for more than three years) or have missing information. To palliate to these problems we had to rely on third party APIs that are not using RDF, such as OMDB.
 
-Using SPARQL for the first time was also challenging, because it wasn't exactly like SQL which we are used to.
+Using SPARQL for the first time was also challenging, because it was not exactly like SQL which we are used to.
 
 In the end we enjoyed working with Ruby on Rails and RDF and we wish there would be more services providing a SPARQL end-point and using RDF to structure their data.
 
