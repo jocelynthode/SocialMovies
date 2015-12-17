@@ -14,8 +14,8 @@ Rails.application.routes.draw do
 
   resources :movies do
     member do
-      put :toggle_recommendation
-      put :toggle_bookmark
+      put :recommend
+      put :bookmark
       put :hide
     end
   end

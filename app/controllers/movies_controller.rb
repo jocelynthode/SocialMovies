@@ -79,7 +79,7 @@ class MoviesController < ApplicationController
 
 
 
-  def toggle_recommendation
+  def recommend
     @liked_state = nil
     if current_user.likes?(@movie) && params[:thumbs_up] == 'false' ||
         !current_user.dislikes?(@movie) && !current_user.likes?(@movie) && params[:thumbs_up] == 'false'
@@ -96,7 +96,7 @@ class MoviesController < ApplicationController
     end
   end
 
-  def toggle_bookmark
+  def bookmark
     if current_user.bookmarks?(@movie)
       current_user.unbookmark(@movie)
     else
