@@ -52,11 +52,11 @@
                 <% end %>
             <% else %>
                 <li class="disabled"><a href="#">No lists available.</a></li>
+            <% end %>
                 <% if user_signed_in? %>
                     <li role="separator" class="divider"></li>
                     <li><%= link_to 'Create a new list', lists_path() %></li>
                 <% end %>
-            <% end %>
           </ul>
         </div>
       </div>
