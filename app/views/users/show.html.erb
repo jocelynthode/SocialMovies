@@ -16,8 +16,8 @@
   </thead>
   <tbody>
     <% if !@user.lists.empty? %>
-      <tr>
       <% @user.lists.each do |list| %>
+        <tr>
         <td><%= list.name %></td>
         <td>
           <% if list.followed_by?(current_user) %>
@@ -28,8 +28,8 @@
             <%= link_to 'Follow this list', follows_path(list: list), method: :post, remote: true, :class => 'btn btn-xs btn-success', :id => 'list-follow-' + list.id.to_s %>
           <% end %>
         </td>
+        </tr>
       <% end %>
-    </tr>
     <% else %>
       <tr>
         <td colspan="3">No movie in this list.</td>
